@@ -1,6 +1,7 @@
 import { createContext, useContext, useMemo, useReducer } from "react";
 import { FoodOrderInit, FoodOrderProps } from "./defs";
 import { foodReducer } from "./foodReducer";
+import { FoodOrderStep } from "@features/mealOrderStepper/types";
 
 export const FoodOrderContext = createContext<FoodOrderInit | null>(null);
 
@@ -14,6 +15,7 @@ export const useFoodOrderContext = () => {
 };
 
 const initialState = {
+	currentStep: FoodOrderStep.MealOrderStep,
 	mealOrderStep: {
 		orderNumber: "",
 		email: "",

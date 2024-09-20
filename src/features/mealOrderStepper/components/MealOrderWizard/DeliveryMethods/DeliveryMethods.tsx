@@ -5,13 +5,13 @@ import RHFTextfield from "@components/ui/formParts/RHFTextfield";
 import { OrderMealStepValues } from "@services/api/types";
 import { useFoodOrderContext } from "@context/FoodOrderContext/FoodOrderContext";
 
-const DeliveryMethods = ({ onPrev, handleSubmitStep }: DeliveryMethodsProps) => {
+const DeliveryMethods = ({ onPrev, onSubmit }: DeliveryMethodsProps) => {
 	const { handleSubmit } = useFormContext<OrderMealStepValues>();
 	const { dispatch } = useFoodOrderContext();
 
 	const handleSubmitAndSaveDeliveryMethodsStep = (stepValues: OrderMealStepValues) => {
 		dispatch({ type: "SET_DELIVERY_METHODS", payload: stepValues.deliveryMethods });
-		handleSubmitStep({ deliveryMethods: stepValues.deliveryMethods });
+		onSubmit({ deliveryMethods: stepValues.deliveryMethods });
 	};
 
 	return (

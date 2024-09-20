@@ -282,26 +282,29 @@
       "students": []
     }
   ],
-  "foodOrders": [
+  "meal-booking-information": {
+    "isAlreadyBooked": false
+  },
+  "meal-booking": [
     {
       "id": "1",
       "orderSteps": [
         {
-          "orderNumber": "#88888",
+          "orderNumber": "#989898",
           "email": "przemek.lewtak@gmail.com",
-          "telephone": "07834695767",
+          "telephone": "07856464332",
           "paymentOptions": [],
           "name": "order"
         },
         {
-          "addressLine": "131 Queens Avenue Bromley",
+          "addressLine": "131 Queens Avenue",
           "postCode": "BL7 9BP",
           "city": "BOLTON",
           "name": "addressDetails"
         },
         {
           "name": "deliveryMethods",
-          "quickDelivery": "Royal Mail",
+          "quickDelivery": "DPD",
           "nextDayDelivery": "UPS"
         }
       ]

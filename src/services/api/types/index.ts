@@ -112,3 +112,7 @@ export type OrderMealStepValues = {
 	addressDetails: AddressDetailsStep;
 	deliveryMethods: DeliveryMethodsStep;
 };
+
+export interface BookingInfo {
+	isAlreadyBooked?: boolean | null;
+}

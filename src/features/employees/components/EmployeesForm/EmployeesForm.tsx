@@ -54,6 +54,7 @@ const EmployeesForm = ({ option }: EmployeesFormProps) => {
 		}
 	}, [isTeacher, replace, unregister]);
 
+	// Will populate fields with data if data exists
 	useEffect(() => {
 		if (employeeQuery.data) {
 			reset(employeeQuery.data as EmployeesSchema); // due to issue Types of property 'isTeacher' are incompatible. Type 'boolean' is not assignable to type 'true'.ts assertion is required

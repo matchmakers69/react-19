@@ -1,17 +1,18 @@
 import { Box, Button, Container, Stack } from "@mui/material";
-import { MealOrderProps } from "./defs";
 import { useFormContext } from "react-hook-form";
 import { OrderMealStepValues } from "@services/api/types";
 import RHFTextfield from "@components/ui/formParts/RHFTextfield";
 import { useFoodOrderContext } from "@context/FoodOrderContext/FoodOrderContext";
+import { useFoodOrderStepper } from "@features/mealOrderStepper/hooks/useFoodOrderStepper";
 
-const MealOrder = ({ handleSubmitStep }: MealOrderProps) => {
+const MealOrder = () => {
 	const { handleSubmit } = useFormContext<OrderMealStepValues>();
 	const { dispatch } = useFoodOrderContext();
+	const { handleGoToNextStep } = useFoodOrderStepper();
 
 	const handleSubmitAndSaveMealOrderStep = (stepValues: OrderMealStepValues) => {
 		dispatch({ type: "SET_MEAL_ORDER", payload: stepValues.order });
-		handleSubmitStep({ order: stepValues.order });
+		handleGoToNextStep();
 	};
 	return (
 		<Container maxWidth="sm">

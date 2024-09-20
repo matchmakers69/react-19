@@ -1,5 +1,6 @@
 import { requests } from "../../config/axios";
 import {
+	BookingInfo,
 	EmployeeCreate,
 	EmployeeEdit,
 	EmployeeGet,
@@ -27,7 +28,9 @@ export const ApiClient = (url: string) => ({
 	updateEmployee: (employee: EmployeeEdit): Promise<EmployeeGet> =>
 		requests.put(`${url}/${employee.id}`, employee),
 	postEmployee: (employee: EmployeeCreate): Promise<EmployeeGet> => requests.post(url, employee),
-
+	getMealBookingInformation: (): Promise<BookingInfo> => requests.get(url),
+	updateMealBookingInformation: (bookingInfo: BookingInfo): Promise<BookingInfo> =>
+		requests.put(url, bookingInfo),
 	getMealOrder: (): Promise<FoodOrder[]> => requests.get(url),
 	saveMealOrder: (mealOrder: FoodOrder): Promise<FoodOrder> =>
 		requests.put(`${url}/${mealOrder.id}`, mealOrder),

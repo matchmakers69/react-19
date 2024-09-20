@@ -2,6 +2,11 @@ import { FoodOrderActions, FoodOrderState } from "./defs";
 
 export const foodReducer = (state: FoodOrderState, action: FoodOrderActions): FoodOrderState => {
 	switch (action.type) {
+		case "SET_CURRENT_STEP":
+			return {
+				...state,
+				currentStep: action.payload,
+			};
 		case "SET_MEAL_ORDER":
 			return {
 				...state,

@@ -4,14 +4,16 @@ import { OrderMealStepValues } from "@services/api/types";
 import { useFormContext } from "react-hook-form";
 import RHFTextfield from "@components/ui/formParts/RHFTextfield";
 import { useFoodOrderContext } from "@context/FoodOrderContext/FoodOrderContext";
+import { useFoodOrderStepper } from "@features/mealOrderStepper/hooks/useFoodOrderStepper";
 
-const AddressDetails = ({ handleSubmitStep, onPrev }: AddressDetailsProps) => {
+const AddressDetails = ({ onPrev }: AddressDetailsProps) => {
 	const { handleSubmit } = useFormContext<OrderMealStepValues>();
 	const { dispatch } = useFoodOrderContext();
+	const { handleGoToNextStep } = useFoodOrderStepper();
 
 	const handleSubmitAndSaveAddressDetailsStep = (stepValues: OrderMealStepValues) => {
 		dispatch({ type: "SET_ADDRESS_DETAILS", payload: stepValues.addressDetails });
-		handleSubmitStep({ addressDetails: stepValues.addressDetails });
+		handleGoToNextStep();
 	};
 
 	return (

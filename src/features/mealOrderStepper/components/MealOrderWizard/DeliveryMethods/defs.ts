@@ -1,6 +1,5 @@
-import { OrderMealStepValues } from "@services/api/types";
+import { FinalBookingOrderStep } from "@features/mealOrderStepper/types";
 
 export type DeliveryMethodsProps = {
 	onPrev: () => void;
-	handleSubmitStep: (stepValues: Partial<OrderMealStepValues>) => void;
-};
+} & FinalBookingOrderStep;

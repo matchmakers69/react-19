@@ -1,27 +1,50 @@
 import PageTitle from "@components/ui/PageTitle";
-import { useFoodOrderContext } from "@context/FoodOrderContext/FoodOrderContext";
+import CheckMealOrderBookingForm from "@features/mealOrderStepper/components/CheckMealOrderBookingForm";
 import MealOrderWizard from "@features/mealOrderStepper/components/MealOrderWizard";
+import { useBookingInfo } from "@features/mealOrderStepper/queries/useBookingInfo";
 import { useMealOrderSteps } from "@features/mealOrderStepper/queries/useMealOrderSteps";
+import { Box, Typography } from "@mui/material";
 import { useEffect } from "react";
 
 const FoodPage = () => {
-	const { data: mealOrderSteps, isLoading, isError } = useMealOrderSteps();
-	const { dispatch } = useFoodOrderContext();
+	const { data: bookingInfo, isError: bookingInfoError, isLoading: bookingInfoLoading } = useBookingInfo();
+	const {
+		data: mealOrderSteps,
+		refetch: refetchMealOrderSteps,
+		isLoading: mealStepsAreLoading,
+		isError: mealOrdersError,
+	} = useMealOrderSteps(bookingInfo ?? null); // TODO perhaps use useQueries
 
+	const isLoading = bookingInfoLoading || mealStepsAreLoading;
+	const isError = bookingInfoError || mealOrdersError;
+	// Refetch meal order steps when booking info changes
 	useEffect(() => {
-		if (mealOrderSteps) {
-			dispatch({ type: "SET_MEAL_ORDER", payload: mealOrderSteps.order });
-			dispatch({ type: "SET_ADDRESS_DETAILS", payload: mealOrderSteps.addressDetails });
-			dispatch({ type: "SET_DELIVERY_METHODS", payload: mealOrderSteps.deliveryMethods });
+		if (bookingInfo?.isAlreadyBooked) {
+			refetchMealOrderSteps();
 		}
-	}, [mealOrderSteps, dispatch]);
+	}, [bookingInfo?.isAlreadyBooked, refetchMealOrderSteps]);
 
-	if (isLoading) return <div>Loading...</div>;
-	if (isError) return <div>Error loading meal order steps</div>;
+	if (isLoading) {
+		return (
+			<Box>
+				<Typography variant="h3">Your booking is loading...</Typography>
+			</Box>
+		);
+	}
+
+	if (isError) {
+		return (
+			<Box>
+				<Typography variant="h3">Something went wrong</Typography>
+			</Box>
+		);
+	}
+
 	return (
 		<>
 			<PageTitle title="Order your meal with us!" />
-			<MealOrderWizard />
+			<CheckMealOrderBookingForm bookingInfo={bookingInfo ?? null} />
+			<MealOrderWizard mealOrderSteps={mealOrderSteps ?? null} />
 		</>
 	);
 };

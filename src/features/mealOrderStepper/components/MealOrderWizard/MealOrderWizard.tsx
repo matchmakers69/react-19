@@ -10,9 +10,13 @@ import {
 } from "../MealOrderWizard/schema/mealOrderSchema";
 import { useGetMealOrderStep } from "@features/mealOrderStepper/hooks/useGetMealOrderStep";
 import { OrderMealStepValues } from "@services/api/types";
-import { useCallback, useEffect } from "react";
-import useSetMealOrderSteps from "@features/mealOrderStepper/hooks/useSetMealOrderSteps";
+import { useEffect } from "react";
 import { useSaveMealOrder } from "@features/mealOrderStepper/queries/useSaveMealOrder";
+import { FinalBookingOrderStep } from "@features/mealOrderStepper/types";
+import { useBookingInfo } from "@features/mealOrderStepper/queries/useBookingInfo";
+import { Box } from "@mui/material";
+import { useUpdateBookingInfo } from "@features/mealOrderStepper/queries/useUpdateBookingInfo";
+import { MealOrderWizardProps } from "./defs";
 
 const schemas = {
 	mealOrder: mealOrderSchema,
@@ -24,51 +28,57 @@ const schemas = {
 // 	return !!order.order && !!order.addressDetails && !!order.deliveryMethods;
 // };
 
-const MealOrderWizard = () => {
-	const { mealOrderStep, addressDetailsStep, deliveryMethodsStep } = useFoodOrderContext();
-	const { currentStep, handleGoToNextStep, handleGoToPrevStep } = useFoodOrderStepper();
-	const { accumulatedFormStepsData, handleSetMealOrderFormValues } = useSetMealOrderSteps();
-	const updateMealOrderMutation = useSaveMealOrder();
+const MealOrderWizard = ({ mealOrderSteps }: MealOrderWizardProps) => {
+	const { mealOrderStep, addressDetailsStep } = useFoodOrderContext();
+	const { data: bookingInfo } = useBookingInfo();
+	const { updateBookingInfoMutation } = useUpdateBookingInfo();
+	const { currentStep, handleGoToPrevStep } = useFoodOrderStepper();
+	const { isLoadingSaveMealSteps, saveMealOrderStepsMutation } = useSaveMealOrder();
 
 	const methods = useForm({
 		mode: "all",
 		resolver: zodResolver(schemas[currentStep]),
 		defaultValues: {
-			order: mealOrderStep,
-			addressDetails: addressDetailsStep,
-			deliveryMethods: deliveryMethodsStep,
+			order: mealOrderSteps?.order ?? undefined,
+			addressDetails: mealOrderSteps?.addressDetails ?? undefined,
+			deliveryMethods: mealOrderSteps?.deliveryMethods ?? undefined,
 		},
 	});
 
-	const { Component: MealStepperComponent, isLastStep } = useGetMealOrderStep(currentStep);
-
 	// Make sure fields will be populated when data is loaded
+	// Will populate fields with data if data exists
 	useEffect(() => {
-		methods.reset({
+		if (mealOrderSteps) {
+			methods.reset(mealOrderSteps);
+		}
+	}, [methods]);
+
+	const { Component: MealStepperComponent } = useGetMealOrderStep(currentStep);
+
+	const handleSubmitMealOrder: FinalBookingOrderStep["onSubmit"] = async (stepValues) => {
+		if (!mealOrderStep || !addressDetailsStep) {
+			throw new Error("No data");
+		}
+		const mealOrderSteps: OrderMealStepValues = {
 			order: mealOrderStep,
 			addressDetails: addressDetailsStep,
-			deliveryMethods: deliveryMethodsStep,
-		});
-	}, [mealOrderStep, addressDetailsStep, deliveryMethodsStep, methods]);
+			deliveryMethods: stepValues.deliveryMethods,
+		};
 
-	const handleSubmitMealOrder = useCallback(
-		(stepValues: Partial<OrderMealStepValues>) => {
-			const updatedMealFormSteps = { ...accumulatedFormStepsData, ...stepValues } as OrderMealStepValues;
-			handleSetMealOrderFormValues(updatedMealFormSteps);
+		saveMealOrderStepsMutation(mealOrderSteps);
 
-			if (!isLastStep(currentStep)) {
-				handleGoToNextStep();
-			} else {
-				updateMealOrderMutation.mutate(updatedMealFormSteps);
-			}
-		},
-		[currentStep, isLastStep, handleGoToNextStep, mealOrderStep, addressDetailsStep, deliveryMethodsStep],
-	);
+		if (!bookingInfo?.isAlreadyBooked) {
+			updateBookingInfoMutation({ isAlreadyBooked: true });
+		} // user fills the form first time and we want to let backend know status will be true now
+	};
+	if (isLoadingSaveMealSteps) {
+		return <Box>Steps are updating</Box>;
+	}
 
 	return (
 		<FormProvider {...methods}>
 			<LocationProvider>
-				<MealStepperComponent handleSubmitStep={handleSubmitMealOrder} onPrev={handleGoToPrevStep} />
+				<MealStepperComponent onSubmit={handleSubmitMealOrder} onPrev={handleGoToPrevStep} />
 			</LocationProvider>
 		</FormProvider>
 	);

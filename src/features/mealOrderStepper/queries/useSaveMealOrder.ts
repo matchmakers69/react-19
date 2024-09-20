@@ -9,17 +9,28 @@ const saveMealOrder = async (mealOrderSteps: OrderMealStepValues) => {
 		id: "1",
 		orderSteps: orderSteps,
 	};
-	return await ApiClient("/foodOrders").saveMealOrder(finalShapeData);
+	return await ApiClient("/meal-booking").saveMealOrder(finalShapeData);
 };
 
 export const useSaveMealOrder = () => {
 	const queryClient = useQueryClient();
-	return useMutation({
+	const { mutate: saveMealOrderStepsMutation, isPaused: isLoadingSaveMealSteps } = useMutation({
 		mutationFn: (mealOrderSteps: OrderMealStepValues) => saveMealOrder(mealOrderSteps),
 		onSuccess: async () => {
 			await queryClient.invalidateQueries({
 				queryKey: ["food"],
 			});
 		},
+		onError: (error) => {
+			console.error(error);
+			if (error) {
+				throw new Error("Saving went wrong");
+			}
+		},
 	});
+
+	return {
+		saveMealOrderStepsMutation,
+		isLoadingSaveMealSteps,
+	};
 };
