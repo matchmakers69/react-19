@@ -6,6 +6,8 @@ import { useMealOrderSteps } from "@features/mealOrderStepper/queries/useMealOrd
 import { Box, Typography } from "@mui/material";
 import { useEffect } from "react";
 
+// https://stackoverflow.com/questions/72950435/how-can-i-wait-for-mutation-execution-in-react-query/72994681#72994681 - multiple mutations
+
 const FoodPage = () => {
 	const { data: bookingInfo, isError: bookingInfoError, isLoading: bookingInfoLoading } = useBookingInfo();
 	const {

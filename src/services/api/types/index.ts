@@ -1,3 +1,5 @@
+import { Nationality, Money, Email, DateString, Phone } from "types/defs";
+
 export interface Company {
 	name: string;
 	description: string;
@@ -116,3 +118,39 @@ export type OrderMealStepValues = {
 export interface BookingInfo {
 	isAlreadyBooked?: boolean | null;
 }
+
+// Workers
+export type WorkerSkill = string;
+
+export type ContractType = "contract" | "permanent";
+
+export type Worker = {
+	id: number;
+	nationality: Nationality;
+	departmentId: number;
+	keycardId: string;
+	account: string;
+	salary: Money;
+	office: [string, string];
+	firstName: string;
+	lastName: string;
+	title: string;
+	contractType: ContractType;
+	email: Email;
+	hiredAt: DateString;
+	expiresAt: DateString;
+	personalInfo: {
+		age: number;
+		phone: Phone;
+		email: Email;
+		dateOfBirth: DateString;
+		address: {
+			street: string;
+			city: string;
+			country: string;
+		};
+	};
+	skills: Skill[];
+	bio: string;
+	imgURL: string;
+};

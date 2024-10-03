@@ -5,11 +5,12 @@ import JobsPage from "../features/jobs/pages/JobsPage";
 import AddJobPage from "../features/jobs/pages/AddJobPage";
 import JobPage from "../features/jobs/pages/JobPage";
 import EmployeesPage from "../features/employees/pages/EmployeesPage";
-import NotFoundPage from "../pages/NotFoundPage";
 import PagesLayout from "../layouts/PagesLayout";
 import JobsContextProvider from "../context/JobsContext/JobsContext";
 import FoodOrderProvider from "../context/FoodOrderContext/FoodOrderContext";
 import MealOrderPage from "@features/mealOrderStepper/pages/MealOrderPage";
+import WorkersPage from "@features/workers/pages/WorkersPage";
+import NotFoundPage from "../pages/NotFoundPage";
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -52,6 +53,7 @@ export const router = createBrowserRouter(
 						</JobsContextProvider>
 					}
 				/>
+				<Route path="/workers" element={<WorkersPage />} />
 				<Route path="*" element={<NotFoundPage />} />
 			</Route>
 		</Route>,

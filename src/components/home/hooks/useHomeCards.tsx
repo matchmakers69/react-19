@@ -38,6 +38,13 @@ export const useHomeCards = () => {
 			linkText: "Order your meal",
 			url: "/food-order",
 		},
+		{
+			id: uuidv4(),
+			title: "Workers with RQ",
+			paragraph: "Fetching workers with react query!",
+			linkText: "View all workers",
+			url: "/workers",
+		},
 	];
 
 	return { HomeCardsList };
