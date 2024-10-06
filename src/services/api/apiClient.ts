@@ -1,6 +1,7 @@
-import { EmployeeSearchParams } from "types/defs";
+import { WorkerSearchParams, Geo } from "types/defs";
 import { requests } from "../../config/axios";
 import {
+	Benefit,
 	BookingInfo,
 	EmployeeCreate,
 	EmployeeEdit,
@@ -11,7 +12,7 @@ import {
 	Language,
 	Skill,
 	State,
-	Worker,
+	WorkerData,
 } from "./types";
 import { applyQueryString } from "@utils/queryString";
 
@@ -38,9 +39,11 @@ export const ApiClient = (url: string) => ({
 	saveMealOrder: (mealOrder: FoodOrder): Promise<FoodOrder> =>
 		requests.put(`${url}/${mealOrder.id}`, mealOrder),
 
-	getWorkers: (filters: EmployeeSearchParams = {}, page = 1): Promise<Worker[]> => {
-		const query = applyQueryString({ ...filters, _page: page });
+	getWorkers: (filters: WorkerSearchParams): Promise<WorkerData> => {
+		const query = applyQueryString({ ...filters });
 		const fullUrl = `${url}${query ? `${query}` : ""}`;
 		return requests.get(fullUrl);
 	},
+	getBenefits: (): Promise<Benefit[]> => requests.get(url),
+	getGeo: (): Promise<Geo> => requests.get(url),
 });

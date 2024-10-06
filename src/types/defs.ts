@@ -20,4 +20,5 @@ export type Email = string;
 export type Phone = string;
 export type Money = number;
 
-export type EmployeeSearchParams = Partial<Pick<Worker, "nationality" | "lastName">>;
+export type WorkerSearchParams = Partial<Pick<Worker, "nationality" | "lastName">> & { page: number };
+export type Geo = { [n in Nationality]: string };

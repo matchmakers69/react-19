@@ -1,25 +1,51 @@
-import { ListItem, ListItemAvatar, Avatar, ListItemText, Typography } from "@mui/material";
+import { Link, ListItem, ListItemAvatar, ListItemText, Stack, Typography } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
 import { WorkerRowProps } from "./defs";
+import WorkerImage from "../WorkerImage";
+import CurrencyFormat from "react-currency-format";
 
 const WorkerRow = ({ worker, children }: WorkerRowProps) => {
 	return (
 		<>
-			<ListItem alignItems="flex-start">
-				<ListItemAvatar>
-					<Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
-				</ListItemAvatar>
-				<ListItemText
-					primary="Summer BBQ"
-					secondary={
-						<>
-							<Typography component="span" variant="body2" sx={{ color: "text.primary", display: "inline" }}>
-								to Scott, Alex, Jennifer
-							</Typography>
-							{" — Wish I could come, but I'm out of town this…"}
-						</>
-					}
-				/>
-				{children}
+			<ListItem
+				alignItems="flex-start"
+				sx={{
+					flexWrap: "wrap",
+				}}
+			>
+				<Stack width="100%" gap={2} flexDirection="row">
+					<ListItemAvatar>
+						<WorkerImage
+							imgUrl={`${worker.imgURL}`}
+							width={45}
+							height={45}
+							alt={`${worker.firstName} ${worker.lastName}`}
+						/>
+					</ListItemAvatar>
+					<ListItemText
+						primary={
+							<>
+								<Link component={RouterLink} to="/">
+									{worker.firstName} {worker.lastName},<em>position</em>: {worker.title}
+								</Link>
+							</>
+						}
+						secondary={
+							<>
+								<Typography variant="caption">
+									<em>salary</em>:{" "}
+									<CurrencyFormat
+										value={worker.salary}
+										displayType={"text"}
+										thousandSeparator={true}
+										prefix={"£"}
+									/>
+								</Typography>
+							</>
+						}
+					/>
+				</Stack>
+				<Stack flexDirection="row">{children}</Stack>
 			</ListItem>
 		</>
 	);

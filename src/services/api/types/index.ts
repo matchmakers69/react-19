@@ -124,6 +124,14 @@ export type WorkerSkill = string;
 
 export type ContractType = "contract" | "permanent";
 
+export type WorkerData = {
+	data: Worker[];
+	items?: number | null;
+	next?: number | null;
+	prev?: number | null;
+	pages?: number | null;
+};
+
 export type Worker = {
 	id: number;
 	nationality: Nationality;
@@ -153,4 +161,31 @@ export type Worker = {
 	skills: Skill[];
 	bio: string;
 	imgURL: string;
+};
+
+export type Benefit = {
+	id: string;
+	beneficiary: {
+		name: string;
+		email: Email;
+	};
+	country: string;
+	city: string;
+	service: string;
+	monthlyFee: number;
+	subscribedAtDate: string;
+};
+
+export type Project = {
+	id: string;
+	name: string;
+	budget: Money;
+	startDate: string;
+	endDate: string;
+	team: {
+		id: number;
+		name: string;
+	}[];
+	manager: number;
+	description: string;
 };

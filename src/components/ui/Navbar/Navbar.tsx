@@ -28,6 +28,7 @@ const Navbar = () => {
 							<RouterLink to="/employees" text="Employees" />
 							<RouterLink to="/food-order" text="Order your meal" />
 							<RouterLink to="/workers" text="Workers" />
+							<RouterLink to="/budgets" text="Budgets" />
 						</S.FlexBetween>
 					</S.FlexBetween>
 				</S.Toolbar>

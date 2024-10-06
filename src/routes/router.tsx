@@ -10,6 +10,7 @@ import JobsContextProvider from "../context/JobsContext/JobsContext";
 import FoodOrderProvider from "../context/FoodOrderContext/FoodOrderContext";
 import MealOrderPage from "@features/mealOrderStepper/pages/MealOrderPage";
 import WorkersPage from "@features/workers/pages/WorkersPage";
+import BudgetPage from "@features/workers/pages/BudgetPage";
 import NotFoundPage from "../pages/NotFoundPage";
 
 export const router = createBrowserRouter(
@@ -54,6 +55,8 @@ export const router = createBrowserRouter(
 					}
 				/>
 				<Route path="/workers" element={<WorkersPage />} />
+				<Route path="/budgets" element={<BudgetPage />} />
+
 				<Route path="*" element={<NotFoundPage />} />
 			</Route>
 		</Route>,

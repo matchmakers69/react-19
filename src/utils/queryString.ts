@@ -7,7 +7,9 @@ export const queryString = (criteria: Criteria) =>
 			if (key === "_page" || key === "_limit") {
 				return `${key}=${value}`;
 			} else {
-				return `${key}_like=${value}`;
+				// JSON server does not support _like
+				// return `${key}_like=${value}`;
+				return `_${key}=${value}`;
 			}
 		})
 		.join("&");
