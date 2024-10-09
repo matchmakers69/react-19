@@ -10,6 +10,7 @@ import {
 	Gender,
 	Job,
 	Language,
+	RestaurantOrder,
 	Skill,
 	State,
 	WorkerData,
@@ -46,4 +47,5 @@ export const ApiClient = (url: string) => ({
 	},
 	getBenefits: (): Promise<Benefit[]> => requests.get(url),
 	getGeo: (): Promise<Geo> => requests.get(url),
+	getRestaurantOrder: (): Promise<RestaurantOrder> => requests.get(url),
 });

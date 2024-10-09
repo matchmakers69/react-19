@@ -28,3 +28,20 @@ export const airPodsPro: Product = {
 	name: "airPodsPro2022",
 	price: 100,
 };
+
+// typing objects
+
+type Nationality = {
+	[key: string]: string;
+};
+
+const nationality: Nationality = {
+	US: "United States of America",
+	UK: "United Kingdom",
+	DE: "Germany",
+	FR: "France",
+	NL: "Netherlands",
+	PL: "Poland",
+	IT: "Italy",
+	ES: "Spain",
+};

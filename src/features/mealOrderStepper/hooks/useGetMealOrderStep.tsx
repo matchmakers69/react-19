@@ -27,8 +27,5 @@ export const useGetMealOrderStep = (currentMealComponentStepKey: FoodOrderStep) 
 
 	const { Component } = mealOrderStepperMap[currentMealComponentStepKey];
 
-	const isLastStep = (currentStep: FoodOrderStep) => {
-		return currentStep === FoodOrderStep.DeliveryMethods;
-	};
-	return { Component, isLastStep };
+	return { Component };
 };

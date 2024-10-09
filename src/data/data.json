@@ -20682,5 +20682,117 @@
 			"manager": 2670735,
 			"description": "Est velit sed saepe totam laboriosam quod eligendi.\nQuos magni impedit.\nEos praesentium et nostrum quidem voluptas unde."
 		}
-	]
+	],
+	"restaurant": {
+		"Personal Info": [
+			{
+				"id": "005092ebc65847dc",
+				"label": "Order number",
+				"value": 17092364646
+			},
+			{
+				"id": "01cc3ad52e77492f",
+				"label": "Mobile number",
+				"value": "+447834696754"
+			},
+			{
+				"id": "0338ddf65e024cba",
+				"label": "Customer name",
+				"value": "Jon Doe"
+			},
+			{
+				"id": "0759842c12d74273",
+				"label": "Email",
+				"value": "jon.doe@gmail.com"
+			}
+		],
+		"Ordered Food Items": [
+			{
+				"id": "022b82bfbee14a81",
+				"label": "Food",
+				"drinks": [
+					{
+						"id": 1,
+						"label": "Sweet Tea",
+						"price": "1.79",
+						"qnt": 1
+					},
+					{
+						"id": 2,
+						"label": "Latte",
+						"price": "2.79",
+						"qnt": 1
+					},
+					{
+						"id": 3,
+						"label": "Juice",
+						"price": "4.30",
+						"qnt": 0
+					}
+				],
+				"sandwiches": [
+					{
+						"id": 1,
+						"label": "Tuna",
+						"price": "3.99",
+						"qnt": 0
+					},
+					{
+						"id": 2,
+						"label": "Chicken",
+						"price": "3.99",
+						"qnt": 1
+					},
+
+					{
+						"id": 3,
+						"label": "Ham and cheese",
+						"price": "2.65",
+						"qnt": 1
+					},
+
+					{
+						"id": 4,
+						"label": "Cheese and pickles",
+						"price": "2.99",
+						"qnt": 1
+					}
+				]
+			}
+		],
+		"Checkout Details": [
+			{
+				"id": 1,
+				"label": "Payment Method",
+				"paymentMethod": ["Card", "Paid Online", "Paypal", "Cash"]
+			},
+			{
+				"id": 2,
+				"label": "Payment Method",
+				"deliveryWithin": ["Less then Half an Hour", "Half an Hour", "One Hour", "More then Hour"]
+			}
+		],
+		"Delivery Address": [
+			{
+				"id": 1,
+				"label": "Street Address",
+				"value": "Street 1"
+			},
+			{
+				"id": 2,
+				"label": "City",
+				"value": "Bolton"
+			},
+			{
+				"id": 3,
+				"label": "Post Code",
+				"value": "BL7 9BP"
+			},
+			{
+				"id": 4,
+				"label": "Council",
+				"value": "Lancanshire"
+			}
+		]
+	}
 }

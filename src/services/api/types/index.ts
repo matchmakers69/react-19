@@ -1,3 +1,4 @@
+import { CommonFieldValue, SimpleFieldValue } from "@features/restaurant/types";
 import { Nationality, Money, Email, DateString, Phone } from "types/defs";
 
 export interface Company {
@@ -189,3 +190,25 @@ export type Project = {
 	manager: number;
 	description: string;
 };
+
+// Restaurant
+
+export interface FoodItem extends CommonFieldValue {
+	price: string;
+	qnt: number;
+}
+
+export interface FoodOrderCategory extends CommonFieldValue {
+	drinks: FoodItem[];
+	sandwiches: FoodItem[];
+}
+
+export interface OptionsInputField {
+	[key: string]: string[] | string;
+}
+
+type InputFieldInsideTab = SimpleFieldValue | FoodOrderCategory | OptionsInputField;
+
+export interface RestaurantOrder {
+	[tabName: string]: InputFieldInsideTab[];
+}

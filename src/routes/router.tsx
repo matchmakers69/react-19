@@ -12,6 +12,8 @@ import MealOrderPage from "@features/mealOrderStepper/pages/MealOrderPage";
 import WorkersPage from "@features/workers/pages/WorkersPage";
 import BudgetPage from "@features/workers/pages/BudgetPage";
 import NotFoundPage from "../pages/NotFoundPage";
+import RestaurantPage from "@features/restaurant/pages/RestaurantPage";
+import RestaurantContextProvider from "@context/RestaurantContext/RestaurantContext";
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -56,6 +58,14 @@ export const router = createBrowserRouter(
 				/>
 				<Route path="/workers" element={<WorkersPage />} />
 				<Route path="/budgets" element={<BudgetPage />} />
+				<Route
+					path="/restaurant"
+					element={
+						<RestaurantContextProvider>
+							<RestaurantPage />
+						</RestaurantContextProvider>
+					}
+				/>
 
 				<Route path="*" element={<NotFoundPage />} />
 			</Route>
