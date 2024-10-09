@@ -12,15 +12,25 @@ import { FinalRestaurantOrderStep, OrderSteps } from "@features/restaurant/types
 const MultistepOrderFormContainer = ({ restaurantStep }: MultistepOrderFormContainerProps) => {
 	const STEPS_LENGTH = Object.keys(restaurantStep).length;
 	const { currentStep } = useRestaurantContext();
+
+	function toCamelCase(str: string) {
+		return str
+			.toLowerCase()
+			.split(" ")
+			.map((word, index) => (index === 0 ? word : word.charAt(0).toUpperCase() + word.slice(1)))
+			.join("");
+	}
+
+	const personalInfoData = restaurantStep[OrderSteps.PersonalInfo].reduce((acc, current) => {
+		// Typeguard aby mieć pewność, że label jest stringiem oraz że value istnieje w current
+		if (typeof current.label !== "string" || !("value" in current)) return;
+		return { ...acc, [toCamelCase(current.label)]: current.value };
+	}, {});
+
 	const methods = useForm({
 		mode: "all",
 		defaultValues: {
-			personalInfo: {
-				name: "Jon",
-				email: "email",
-			},
-			foodItems: {},
-			// [OrderSteps.PersonalInfo]: restaurantStep[OrderSteps.PersonalInfo], // Possibly may change and may need to use object instead
+			personalInfo: personalInfoData,
 		},
 	});
 	const { stepKeys, handlePaginationChange } = useRestaurantStepper();
