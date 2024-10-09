@@ -7,7 +7,7 @@ import { getRestaurantOrderSteps } from "@features/restaurant/service/getRestaur
 import { FormProvider, useForm } from "react-hook-form";
 import { useRestaurantContext } from "@context/RestaurantContext/RestaurantContext";
 import { MultistepOrderFormContainerProps } from "./defs";
-import { OrderSteps } from "@features/restaurant/types";
+import { FinalRestaurantOrderStep, OrderSteps } from "@features/restaurant/types";
 
 const MultistepOrderFormContainer = ({ restaurantStep }: MultistepOrderFormContainerProps) => {
 	const STEPS_LENGTH = Object.keys(restaurantStep).length;
@@ -15,7 +15,12 @@ const MultistepOrderFormContainer = ({ restaurantStep }: MultistepOrderFormConta
 	const methods = useForm({
 		mode: "all",
 		defaultValues: {
-			personalDetails: restaurantStep[OrderSteps.PersonalInfo],
+			personalInfo: {
+				name: "Jon",
+				email: "email",
+			},
+			foodItems: {},
+			// [OrderSteps.PersonalInfo]: restaurantStep[OrderSteps.PersonalInfo], // Possibly may change and may need to use object instead
 		},
 	});
 	const { stepKeys, handlePaginationChange } = useRestaurantStepper();
@@ -24,6 +29,13 @@ const MultistepOrderFormContainer = ({ restaurantStep }: MultistepOrderFormConta
 	const { component: RestaurantOrderStep } = steps[currentStep];
 	const labels = stepKeys.map((stepKey) => steps[stepKey].label);
 	const currentStepIndex = stepKeys.indexOf(currentStep) + 1;
+
+	// TODO update method for backend - function will be fired probably only on the last step
+	const saveFinalRestaurantOrder: FinalRestaurantOrderStep["onRestaurantOrderSubmit"] = async (
+		stepValues: any,
+	) => {
+		if (!restaurantStep) throw new Error("No data");
+	};
 
 	return (
 		<Container maxWidth="md" sx={{ p: 0 }}>
@@ -35,7 +47,7 @@ const MultistepOrderFormContainer = ({ restaurantStep }: MultistepOrderFormConta
 					handleChange={handlePaginationChange}
 				/>
 				<FormProvider {...methods}>
-					<Box mb={6}>{<RestaurantOrderStep />}</Box>
+					<Box mb={6}>{<RestaurantOrderStep onRestaurantOrderSubmit={saveFinalRestaurantOrder} />}</Box>
 				</FormProvider>
 			</S.RestaurantFormWrapper>
 		</Container>

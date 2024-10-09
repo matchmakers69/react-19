@@ -6,9 +6,13 @@ import {
 } from "../components/RestaurantOrderSteps";
 import { OrderSteps } from "../types";
 
+type StepComponentProps = {
+	onRestaurantOrderSubmit: (values: any) => void; // TODO add type for falues
+};
+
 type StepComponent = {
 	label: string;
-	component: React.FC<{}>;
+	component: React.FC<StepComponentProps>;
 };
 
 type StepsMapper = {

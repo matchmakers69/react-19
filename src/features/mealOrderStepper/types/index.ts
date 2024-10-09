@@ -7,5 +7,5 @@ export enum FoodOrderStep {
 }
 
 export type FinalBookingOrderStep = {
-	onSubmit: (stepValues: Pick<OrderMealStepValues, "deliveryMethods">) => void;
+	onStepSubmit: (stepValues: Pick<OrderMealStepValues, "deliveryMethods">) => void;
 };

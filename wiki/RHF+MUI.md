@@ -3,3 +3,5 @@ https://github.com/theodorusclarence/rhf-stepform/tree/main - multistep form
 https://medium.com/@krithi.muthuraj/solving-nested-dynamic-forms-using-react-hook-form-6097b0072d48 - nested dynamic forms
 
 https://claritydev.net/blog/advanced-multistep-forms-with-react - multistep form
+
+https://claritydev.net/blog/build-dynamic-forms-react-hook-form - dynamic steps to train

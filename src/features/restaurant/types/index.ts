@@ -13,3 +13,8 @@ export interface CommonFieldValue {
 export interface SimpleFieldValue extends CommonFieldValue {
 	value: string | number;
 }
+
+export type FinalRestaurantOrderStep = {
+	onRestaurantOrderSubmit: (stepValues: any) => void;
+	// onSubmit: (stepValues: Pick<OrderMealStepValues, "deliveryMethods">) => void;
+};

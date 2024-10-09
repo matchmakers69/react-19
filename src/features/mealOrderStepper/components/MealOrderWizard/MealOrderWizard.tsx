@@ -55,7 +55,7 @@ const MealOrderWizard = ({ mealOrderSteps }: MealOrderWizardProps) => {
 
 	const { Component: MealStepperComponent } = useGetMealOrderStep(currentStep);
 
-	const handleSubmitMealOrder: FinalBookingOrderStep["onSubmit"] = async (stepValues) => {
+	const handleSubmitMealOrder: FinalBookingOrderStep["onStepSubmit"] = async (stepValues) => {
 		if (!mealOrderStep || !addressDetailsStep) {
 			throw new Error("No data");
 		}
@@ -78,7 +78,7 @@ const MealOrderWizard = ({ mealOrderSteps }: MealOrderWizardProps) => {
 	return (
 		<FormProvider {...methods}>
 			<LocationProvider>
-				<MealStepperComponent onSubmit={handleSubmitMealOrder} onPrev={handleGoToPrevStep} />
+				<MealStepperComponent onStepSubmit={handleSubmitMealOrder} onPrev={handleGoToPrevStep} />
 			</LocationProvider>
 		</FormProvider>
 	);
