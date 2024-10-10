@@ -7,20 +7,22 @@ import { getRestaurantOrderSteps } from "@features/restaurant/service/getRestaur
 import { FormProvider, useForm } from "react-hook-form";
 import { useRestaurantContext } from "@context/RestaurantContext/RestaurantContext";
 import { MultistepOrderFormContainerProps } from "./defs";
-import { FinalRestaurantOrderStep, OrderSteps } from "@features/restaurant/types";
+import { FinalRestaurantOrderStep } from "@features/restaurant/types";
+import { getDefaultValuesForRestaurantStepper } from "@features/restaurant/service/getDefaultValuesForRestaurantStepper";
 
 const MultistepOrderFormContainer = ({ restaurantStep }: MultistepOrderFormContainerProps) => {
 	const STEPS_LENGTH = Object.keys(restaurantStep).length;
 	const { currentStep } = useRestaurantContext();
+	const { getPersonInfoValues, getFoodItemValues, getCheckoutDetailsValues, getDeliveryAddressDetails } =
+		getDefaultValuesForRestaurantStepper();
+
 	const methods = useForm({
 		mode: "all",
 		defaultValues: {
-			personalInfo: {
-				name: "Jon",
-				email: "email",
-			},
-			foodItems: {},
-			// [OrderSteps.PersonalInfo]: restaurantStep[OrderSteps.PersonalInfo], // Possibly may change and may need to use object instead
+			personalInfo: getPersonInfoValues(restaurantStep.personalInfo) ?? null,
+			orderedFoodItem: getFoodItemValues(restaurantStep.orderedFoodItems) ?? null,
+			checkoutDetail: getCheckoutDetailsValues(restaurantStep.checkoutDetails) ?? null,
+			deliveryAddress: getDeliveryAddressDetails(restaurantStep.deliveryAddress) ?? null,
 		},
 	});
 	const { stepKeys, handlePaginationChange } = useRestaurantStepper();
@@ -35,6 +37,8 @@ const MultistepOrderFormContainer = ({ restaurantStep }: MultistepOrderFormConta
 		stepValues: any,
 	) => {
 		if (!restaurantStep) throw new Error("No data");
+		const formStepValues = methods.getValues();
+		console.log(formStepValues);
 	};
 
 	return (

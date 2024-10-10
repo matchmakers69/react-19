@@ -6,7 +6,7 @@ import { restaurantOrderReducer } from "./restaurantOrderReducer";
 const RestaurantContext = createContext<RestaurantOrderInit | null>(null);
 
 const initialState = {
-	currentStep: OrderSteps.PersonalInfo,
+	currentStep: OrderSteps.personalInfo,
 };
 
 const RestaurantContextProvider = ({ children }: RestaurantContextProps) => {

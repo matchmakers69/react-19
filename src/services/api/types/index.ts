@@ -1,4 +1,4 @@
-import { CommonFieldValue, SimpleFieldValue } from "@features/restaurant/types";
+import { CheckoutDetail, CommonFieldValue, SimpleFieldValue } from "@features/restaurant/types";
 import { Nationality, Money, Email, DateString, Phone } from "types/defs";
 
 export interface Company {
@@ -198,17 +198,21 @@ export interface FoodItem extends CommonFieldValue {
 	qnt: number;
 }
 
-export interface FoodOrderCategory extends CommonFieldValue {
-	drinks: FoodItem[];
-	sandwiches: FoodItem[];
-}
+// export interface FoodOrderCategory extends CommonFieldValue {
+// 	drinks: FoodItem[];
+// 	sandwiches: FoodItem[];
+// }
 
 export interface OptionsInputField {
 	[key: string]: string[] | string;
 }
 
-type InputFieldInsideTab = SimpleFieldValue | FoodOrderCategory | OptionsInputField;
+// type InputFieldInsideTab = SimpleFieldValue | FoodOrderCategory | OptionsInputField;
 
 export interface RestaurantOrder {
-	[tabName: string]: InputFieldInsideTab[];
+	// [stepName: string]: InputFieldInsideTab[];
+	personalInfo: SimpleFieldValue[];
+	orderedFoodItems: FoodItem[];
+	checkoutDetails: CheckoutDetail[];
+	deliveryAddress: SimpleFieldValue[];
 }

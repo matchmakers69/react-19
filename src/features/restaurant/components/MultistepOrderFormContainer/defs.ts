@@ -1,5 +1,5 @@
-import { RestaurantOrder } from "@services/api/types";
+import { OrderData } from "@features/restaurant/types";
 
 export type MultistepOrderFormContainerProps = {
-	restaurantStep: RestaurantOrder;
+	restaurantStep: OrderData;
 };

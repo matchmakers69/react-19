@@ -4,7 +4,6 @@ import { brand, gray, palette } from "./palette";
 import { typography } from "./typography";
 import { muiButton } from "./components/muiButton";
 import { breakpoints } from "./breakpoints";
-import { red } from "@mui/material/colors";
 
 // declare modules for custom palette colors
 declare module "@mui/material/styles/createPalette" {

@@ -21,19 +21,19 @@ type StepsMapper = {
 
 export const getRestaurantOrderSteps = () => {
 	const stepComponents: StepsMapper = {
-		[OrderSteps.PersonalInfo]: {
+		[OrderSteps.personalInfo]: {
 			label: "Personal info",
 			component: PersonalInfoStep,
 		},
-		[OrderSteps.OrderedFoodItems]: {
+		[OrderSteps.orderedFoodItems]: {
 			label: "Ordered food items",
 			component: OrderedFoodItemsStep,
 		},
-		[OrderSteps.CheckoutDetails]: {
+		[OrderSteps.checkoutDetails]: {
 			label: "Checkout details",
 			component: CheckoutDetailsStep,
 		},
-		[OrderSteps.DeliveryAddress]: {
+		[OrderSteps.deliveryAddress]: {
 			label: "Delivery methods",
 			component: DeliveryAddressStep,
 		},
