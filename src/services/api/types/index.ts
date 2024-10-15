@@ -216,3 +216,10 @@ export interface RestaurantOrder {
 	checkoutDetails: CheckoutDetail[];
 	deliveryAddress: SimpleFieldValue[];
 }
+
+// Quiz types
+export interface QuizCategory {
+	id: string;
+	title: string;
+	description: string;
+}

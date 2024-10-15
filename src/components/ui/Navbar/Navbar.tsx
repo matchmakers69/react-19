@@ -16,10 +16,7 @@ const Navbar = () => {
 								fontWeight="bold"
 								sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
 							>
-								MUI v5 with RHF and
-							</Typography>
-							<Typography color="primary.main" fontWeight="bold" variant="h6">
-								RQ
+								RHF+RQ
 							</Typography>
 						</S.FlexBetween>
 						<S.FlexBetween gap="2rem">
@@ -30,6 +27,7 @@ const Navbar = () => {
 							<RouterLink to="/restaurant" text="Restaurant" />
 							<RouterLink to="/workers" text="Workers" />
 							<RouterLink to="/budgets" text="Budgets" />
+							<RouterLink to="/quiz" text="Quiz" />
 						</S.FlexBetween>
 					</S.FlexBetween>
 				</S.Toolbar>

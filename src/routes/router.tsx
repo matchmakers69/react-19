@@ -14,6 +14,9 @@ import BudgetPage from "@features/workers/pages/BudgetPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import RestaurantPage from "@features/restaurant/pages/RestaurantPage";
 import RestaurantContextProvider from "@context/RestaurantContext/RestaurantContext";
+import QuizCategoriesPage from "@features/quiz/pages/QuizCategoriesPage";
+import QuizCategoryPage from "@features/quiz/pages/QuizCategoryPage";
+import QuizCategoryPageEdit from "@features/quiz/pages/QuizCategoryPageEdit";
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -58,6 +61,10 @@ export const router = createBrowserRouter(
 				/>
 				<Route path="/workers" element={<WorkersPage />} />
 				<Route path="/budgets" element={<BudgetPage />} />
+				<Route path="/quiz" element={<QuizCategoriesPage />} />
+				<Route path="/quiz/:id" element={<QuizCategoryPage />} />
+				<Route path="/quiz/:id/edit" element={<QuizCategoryPageEdit />} />
+
 				<Route
 					path="/restaurant"
 					element={

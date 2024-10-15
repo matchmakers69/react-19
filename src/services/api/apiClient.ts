@@ -10,6 +10,7 @@ import {
 	Gender,
 	Job,
 	Language,
+	QuizCategory,
 	RestaurantOrder,
 	Skill,
 	State,
@@ -48,4 +49,10 @@ export const ApiClient = (url: string) => ({
 	getBenefits: (): Promise<Benefit[]> => requests.get(url),
 	getGeo: (): Promise<Geo> => requests.get(url),
 	getRestaurantOrder: (): Promise<RestaurantOrder> => requests.get(url),
+	getQuizCategories: (): Promise<QuizCategory[]> => requests.get(url),
+	getQuizCategoryById: (id: string): Promise<any> => requests.get(`${url}/${id}`),
+	createQuizCategory: (quizCategory: QuizCategory): Promise<QuizCategory> => requests.post(url, quizCategory),
+	updateQuizCategory: (id: string, updatedQuizCategory: Partial<QuizCategory>): Promise<QuizCategory> =>
+		requests.put(`${url}/${id}`, updatedQuizCategory),
+	deleteQuizCategory: (id: string): Promise<QuizCategory> => requests.delete(`${url}/${id}`),
 });
