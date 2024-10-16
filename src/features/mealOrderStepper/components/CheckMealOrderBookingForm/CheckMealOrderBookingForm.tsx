@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import { useUpdateBookingInfo } from "@features/mealOrderStepper/queries/useUpdateBookingInfo";
 
 const CheckMealOrderBookingForm = ({ bookingInfo }: CheckMealOrderBookingFormProps) => {
-	const { isLoadingUpdate, updateBookingInfoMutation } = useUpdateBookingInfo();
+	const { updateBookingInfoMutation } = useUpdateBookingInfo();
 
 	const methods = useForm<BookingValidationSchema>({
 		mode: "onSubmit",

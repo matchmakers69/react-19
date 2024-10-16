@@ -1,4 +1,5 @@
 import PageTitle from "@components/ui/PageTitle";
+import Spinner from "@components/ui/Spinner";
 import UpdateQuizCategoryForm from "@features/quiz/components/forms/UpdateQuizCategoryForm";
 import { useQuizSingleCategoryQuery } from "@features/quiz/queries/fetchSingleQuizCategoryQuery";
 import { Typography } from "@mui/material";
@@ -12,7 +13,7 @@ const QuizCategoryPageEdit = () => {
 	const { isError, isPending, isLoading, error, data: quizCategoryDetails } = useQuizSingleCategoryQuery(id);
 
 	if (isPending || isLoading) {
-		return <Typography variant="h6">Quiz category is loading...</Typography>;
+		return <Spinner color="warning" />;
 	}
 
 	if (isError) {

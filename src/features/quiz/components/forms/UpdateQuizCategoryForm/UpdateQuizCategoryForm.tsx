@@ -4,12 +4,13 @@ import { Container, Box, Stack, FormHelperText, Button } from "@mui/material";
 import { MuiTextField } from "@components/ui/formParts/MuiTextField";
 import { QuizCategoryUpdateFormProps } from "./defs";
 import { CategoriesValidationSchema, categoriesFormSchema } from "../schema/categoriesFormSchema";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useUpdateQuizCategoryMutation } from "@features/quiz/queries/updateQuizCategoryMutation";
 
 const UpdateQuizCategoryForm = ({ quizCategory }: QuizCategoryUpdateFormProps) => {
 	const updateQuizCategoryMutation = useUpdateQuizCategoryMutation();
+	const navigate = useNavigate();
 	const { id } = useParams();
 	const {
 		control,
@@ -27,10 +28,15 @@ const UpdateQuizCategoryForm = ({ quizCategory }: QuizCategoryUpdateFormProps) =
 	});
 
 	const handleSubmitUpdateQuizQuery: SubmitHandler<CategoriesValidationSchema> = (updatedQuizCategory) => {
-		updateQuizCategoryMutation.mutate({
-			id: id ?? "",
-			...updatedQuizCategory,
-		});
+		updateQuizCategoryMutation.mutate(
+			{
+				id: id ?? "",
+				...updatedQuizCategory,
+			},
+			{
+				onSuccess: () => navigate("/quiz"),
+			},
+		);
 	};
 
 	useEffect(() => {

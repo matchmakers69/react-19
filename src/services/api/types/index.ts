@@ -218,8 +218,17 @@ export interface RestaurantOrder {
 }
 
 // Quiz types
+
+export type Likes = {
+	[key: string]: number;
+};
+
 export interface QuizCategory {
 	id: string;
 	title: string;
 	description: string;
+	likes?: { [t in string]: number } & Likes;
+	hasLikes?: boolean | null;
+	questions?: Array<string> | null;
+	image?: string | null;
 }

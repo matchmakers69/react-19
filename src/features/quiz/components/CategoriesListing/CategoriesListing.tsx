@@ -9,39 +9,55 @@ import {
 	Stack,
 	Typography,
 } from "@mui/material";
-import PetsIcon from "@mui/icons-material/Pets";
-import TheatersIcon from "@mui/icons-material/Theaters";
-import LibraryMusicIcon from "@mui/icons-material/LibraryMusic";
-import DeleteIcon from "@mui/icons-material/Delete";
+import ComputerIcon from "@mui/icons-material/Computer";
+import NaturePeopleIcon from "@mui/icons-material/NaturePeople";
+import TipsAndUpdatesIcon from "@mui/icons-material/TipsAndUpdates";
+import BiotechIcon from "@mui/icons-material/Biotech";
 import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import { CategoriesListingProps } from "./defs";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 enum Icons {
-	Pets = "Pets",
-	Films = "Films",
-	Music = "Music",
+	Technology = "Technology",
+	Nature = "Nature",
+	Discovery = "Discovery",
+	Coding = "Coding",
 }
 
+const DEFAULT_ICON = <HelpOutlineIcon />;
+
 type IconsMapper = {
-	[key in Icons]: React.ReactElement;
+	[key in Icons | string]: React.ReactElement;
 };
 
 const iconsMapper: IconsMapper = {
-	[Icons.Pets]: <PetsIcon />,
-	[Icons.Films]: <TheatersIcon />,
-	[Icons.Music]: <LibraryMusicIcon />,
+	[Icons.Technology]: <BiotechIcon />,
+	[Icons.Nature]: <NaturePeopleIcon />,
+	[Icons.Discovery]: <TipsAndUpdatesIcon />,
+	[Icons.Coding]: <ComputerIcon />,
 };
 
-const CategoriesListing = ({ categories, onDelete, loading }: CategoriesListingProps) => {
+const CategoriesListing = ({ categories, onDelete, pending }: CategoriesListingProps) => {
+	const [pendingDeletions, setPendingDeletions] = useState<{ [key: string]: boolean }>({});
 	const navigate = useNavigate();
+
+	const handleCategoryQuizDelete = (id: string) => {
+		setPendingDeletions((prevDeleting) => ({
+			...prevDeleting,
+			[id]: true,
+		}));
+		onDelete(id);
+	};
 	return (
 		<Container maxWidth="sm">
 			<nav aria-label="">
 				<List>
 					{categories.map((category) => (
 						<ListItem sx={{ alignItems: "flex-start" }} key={category.id}>
-							{category.title in Icons && <ListItemIcon>{iconsMapper[category.title as Icons]}</ListItemIcon>}
+							{<ListItemIcon>{iconsMapper[category.title as Icons] || DEFAULT_ICON}</ListItemIcon>}
 							<ListItemText
 								primary={
 									<>
@@ -65,9 +81,14 @@ const CategoriesListing = ({ categories, onDelete, loading }: CategoriesListingP
 								<IconButton onClick={() => navigate(`/quiz/${category.id}/edit`)} aria-label="edit">
 									<EditIcon />
 								</IconButton>
-								<IconButton onClick={() => onDelete(category.id)} aria-label="delete">
-									{loading ? <span>loading...</span> : <DeleteIcon />}
-								</IconButton>
+
+								{pending && pendingDeletions[category.id] ? (
+									<Typography variant="body1">Is deleting...</Typography>
+								) : (
+									<IconButton onClick={() => handleCategoryQuizDelete(category.id)} aria-label="delete">
+										<DeleteIcon />
+									</IconButton>
+								)}
 							</Stack>
 						</ListItem>
 					))}

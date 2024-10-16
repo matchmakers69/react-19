@@ -1,4 +1,5 @@
 import PageTitle from "@components/ui/PageTitle";
+import Spinner from "@components/ui/Spinner";
 import MultistepOrderFormContainer from "@features/restaurant/components/MultistepOrderFormContainer";
 import { useRestaurantOrder } from "@features/restaurant/queries/useRestaurantOrder";
 import { Typography } from "@mui/material";
@@ -7,7 +8,7 @@ const RestaurantPage = () => {
 	const { isPending, isLoading, error, data: restaurantOrderSteps } = useRestaurantOrder();
 
 	if (isPending || isLoading) {
-		return <Typography variant="h6">Restaurant order is loading...</Typography>;
+		return <Spinner color="warning" />;
 	}
 
 	if (error) {

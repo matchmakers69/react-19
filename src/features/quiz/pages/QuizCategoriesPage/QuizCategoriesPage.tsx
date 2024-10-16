@@ -1,16 +1,19 @@
 import PageTitle from "@components/ui/PageTitle";
+import Spinner from "@components/ui/Spinner";
 import CategoriesListing from "@features/quiz/components/CategoriesListing";
 import AddQuizCategoryForm from "@features/quiz/components/forms/AddQuizCategoryForm";
 import { useDeleteQuizCategoryMutation } from "@features/quiz/queries/deleteQuizCategoryMutation";
 import { useQuizCategoriesQuery } from "@features/quiz/queries/fetchCategoriesQuery";
 import { Alert, Button } from "@mui/material";
 import Typography from "@mui/material/Typography";
+import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
 const QuizCategoriesPage = () => {
 	const [isFormInview, setIsFormInView] = useState(false);
 	const { data: quizCategories, isError, isLoading, error, isPending } = useQuizCategoriesQuery();
-	const deleteQuizCategoryMutation = useDeleteQuizCategoryMutation();
+	const { mutate, isPending: isPendingDelete } = useDeleteQuizCategoryMutation();
+	const queryClient = useQueryClient();
 
 	const handleToggleOpenAddQuizCategoryForm = () => {
 		setIsFormInView(!isFormInview);
@@ -21,11 +24,15 @@ const QuizCategoriesPage = () => {
 	};
 
 	const handleDeleteQuizCategory = (id: string) => {
-		deleteQuizCategoryMutation.mutate(id);
+		mutate(id, {
+			onSuccess: () => {
+				queryClient.invalidateQueries({ queryKey: ["quizCategories"] });
+			},
+		});
 	};
 
 	if (isPending || isLoading) {
-		return <Typography variant="h6">Quiz categories are loading...</Typography>;
+		return <Spinner color="warning" />;
 	}
 
 	if (isError) {
@@ -44,7 +51,7 @@ const QuizCategoriesPage = () => {
 				<CategoriesListing
 					categories={quizCategories}
 					onDelete={handleDeleteQuizCategory}
-					loading={isLoading}
+					pending={isPendingDelete}
 				/>
 			) : (
 				<Alert severity="warning">Sorry there are no quiz categories</Alert>

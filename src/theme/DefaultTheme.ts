@@ -19,7 +19,7 @@ declare module "@mui/material/styles/createPalette" {
 // declare module for custom button variant
 declare module "@mui/material/Button" {
 	interface ButtonPropsVariantOverrides {
-		beautiful: true;
+		danger: true;
 	}
 }
 

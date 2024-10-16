@@ -1,60 +1,51 @@
 import PageTitle from "@components/ui/PageTitle";
+import Spinner from "@components/ui/Spinner";
+import ButtonLike from "@features/quiz/components/ButtonLike";
+import QuizCategoryContent from "@features/quiz/components/QuizCategoryContent";
 import { useQuizSingleCategoryQuery } from "@features/quiz/queries/fetchSingleQuizCategoryQuery";
-import { Box, Button, Typography } from "@mui/material";
-import { useState } from "react";
+import { useUpdateQuizCategoryMutation } from "@features/quiz/queries/updateQuizCategoryMutation";
+import { Typography } from "@mui/material";
+
 import { useParams } from "react-router-dom";
 
-type Likes = {
-	[likeID: string]: number;
-};
-
 const QuizCategoryPage = () => {
-	const [likes, setLikes] = useState<Likes>({});
-	const [hasLikes, setHasLikes] = useState<boolean>(false);
-
 	const { id } = useParams<{ id: string }>();
+
 	if (!id) {
 		return <Typography variant="h6">Invalid category ID</Typography>;
 	}
 
-	const handleAddLikes = () => {
-		if (!hasLikes) {
-			setLikes((prevLikes) => ({
-				...prevLikes,
-				[id]: (prevLikes[id] || 0) + 1,
-			}));
-		}
-
-		setHasLikes(true);
-	};
 	const { isError, isPending, isLoading, error, data: quizCategoryDetails } = useQuizSingleCategoryQuery(id);
+	const { mutate } = useUpdateQuizCategoryMutation();
+
+	const handleAddLikes = () => {
+		if (quizCategoryDetails && !quizCategoryDetails?.hasLikes) {
+			mutate({
+				id,
+				title: quizCategoryDetails.title,
+				description: quizCategoryDetails.description,
+				likes: { ...quizCategoryDetails.likes, [id]: (quizCategoryDetails.likes?.[id] || 0) + 1 },
+				hasLikes: true,
+			});
+		}
+	};
 
 	if (isPending || isLoading) {
-		return <Typography variant="h6">Quiz category is loading...</Typography>;
+		return <Spinner color="warning" />;
 	}
 
 	if (isError) {
 		return <Typography variant="h6">{error.message || "Something went wrong!"}</Typography>;
 	}
 
-	console.log(likes, "likes");
 	return (
 		<>
 			<PageTitle title={`Category - ${quizCategoryDetails.title}`} />
-			<Button
-				disabled={hasLikes}
-				onClick={handleAddLikes}
-				sx={{
-					display: "flex",
-					gap: 1,
-					alignItems: "center",
-				}}
-				variant="contained"
-				type="button"
-			>
-				<Box component="span">{likes[id] || 0}</Box>
-				Like
-			</Button>
+			{quizCategoryDetails && (
+				<QuizCategoryContent quizCategoryDetails={quizCategoryDetails}>
+					<ButtonLike id={id} quizCategoryDetails={quizCategoryDetails} onAdd={handleAddLikes} />
+				</QuizCategoryContent>
+			)}
 		</>
 	);
 };

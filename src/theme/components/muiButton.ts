@@ -1,6 +1,6 @@
 import { Components } from "@mui/material/styles/components";
 
-import { brand } from "../palette";
+import { brand, red } from "../palette";
 import { alpha } from "@mui/material";
 
 export const muiButton: Components = {
@@ -31,6 +31,18 @@ export const muiButton: Components = {
 							background: brand[400],
 							backgroundImage: "none",
 							boxShadow: `0 0 0 1px  ${alpha(brand[300], 0.5)}`,
+						},
+					}),
+				...(ownerState.variant === "danger" &&
+					ownerState.color === "primary" && {
+						color: red[50],
+						background: red[800],
+						boxShadow: `inset 0 1px ${alpha(red[300], 0.4)}`,
+						outline: `1px solid ${red[700]}`,
+						"&:hover": {
+							background: red[400],
+							backgroundImage: "none",
+							boxShadow: `0 0 0 1px  ${alpha(red[300], 0.5)}`,
 						},
 					}),
 				...(ownerState.variant === "outlined" && {

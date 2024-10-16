@@ -18,11 +18,11 @@ const WorkerListing = ({ workers }: WorkerListingProps) => {
 			<List sx={{ width: "100%", maxWidth: "600px" }}>
 				{workers.map((worker) => (
 					<WorkerRow key={worker.id} worker={worker}>
-						<Button onClick={() => handleWorkerDismiss(worker)} type="button" variant="beautiful">
+						<Button onClick={() => handleWorkerDismiss(worker)} type="button" variant="outlined">
 							🚪 dismiss
 						</Button>
 
-						<Button onClick={() => handleEmployeeRaise(worker)} type="button" variant="beautiful">
+						<Button onClick={() => handleEmployeeRaise(worker)} type="button" variant="outlined">
 							💰 give raise
 						</Button>
 					</WorkerRow>

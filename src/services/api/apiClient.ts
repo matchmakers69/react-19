@@ -50,7 +50,7 @@ export const ApiClient = (url: string) => ({
 	getGeo: (): Promise<Geo> => requests.get(url),
 	getRestaurantOrder: (): Promise<RestaurantOrder> => requests.get(url),
 	getQuizCategories: (): Promise<QuizCategory[]> => requests.get(url),
-	getQuizCategoryById: (id: string): Promise<any> => requests.get(`${url}/${id}`),
+	getQuizCategoryById: (id: string): Promise<QuizCategory> => requests.get(`${url}/${id}`),
 	createQuizCategory: (quizCategory: QuizCategory): Promise<QuizCategory> => requests.post(url, quizCategory),
 	updateQuizCategory: (id: string, updatedQuizCategory: Partial<QuizCategory>): Promise<QuizCategory> =>
 		requests.put(`${url}/${id}`, updatedQuizCategory),

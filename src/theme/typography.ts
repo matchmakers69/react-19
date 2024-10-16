@@ -10,23 +10,23 @@ export const typography = {
 	h2: {
 		fontSize: 48,
 		fontWeight: 600,
-		lineHeight: 1.2,
+		lineHeight: 1.4,
 		marginBottom: "30px",
 	},
 	h3: {
 		fontSize: 42,
-		lineHeight: 1.2,
+		lineHeight: 1.4,
 		marginBottom: "30px",
 	},
 	h4: {
 		fontSize: 36,
 		fontWeight: 500,
-		lineHeight: 1.2,
+		lineHeight: 1.4,
 	},
 	h5: {
 		fontSize: 20,
-		fontWeight: 600,
-		lineHeight: 1.2,
+		fontWeight: 500,
+		lineHeight: 1.4,
 		margin: "0 0 10px 0",
 	},
 	h6: {
