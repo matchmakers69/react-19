@@ -229,7 +229,7 @@ export interface QuizCategory {
 	description: string;
 	likes?: { [t in string]: number } & Likes;
 	hasLikes?: boolean | null;
-	questions?: Array<string> | null;
+	questions?: { questionText: string }[] | undefined;
 	image?: string | null;
 }
 
