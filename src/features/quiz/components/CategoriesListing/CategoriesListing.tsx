@@ -83,7 +83,7 @@ const CategoriesListing = ({ categories, onDelete, pending }: CategoriesListingP
 								</IconButton>
 
 								{pending && pendingDeletions[category.id] ? (
-									<Typography variant="body1">Is deleting...</Typography>
+									<Typography variant="body1">Is deleting quiz category...</Typography>
 								) : (
 									<IconButton onClick={() => handleCategoryQuizDelete(category.id)} aria-label="delete">
 										<DeleteIcon />

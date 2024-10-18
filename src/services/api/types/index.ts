@@ -232,3 +232,9 @@ export interface QuizCategory {
 	questions?: Array<string> | null;
 	image?: string | null;
 }
+
+export interface QuizCategoryImage {
+	path: string;
+	caption: string;
+	id: string;
+}

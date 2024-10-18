@@ -1,3 +1,4 @@
+import Modal from "@components/ui/Modal";
 import PageTitle from "@components/ui/PageTitle";
 import Spinner from "@components/ui/Spinner";
 import CategoriesListing from "@features/quiz/components/CategoriesListing";
@@ -15,8 +16,8 @@ const QuizCategoriesPage = () => {
 	const { mutate, isPending: isPendingDelete } = useDeleteQuizCategoryMutation();
 	const queryClient = useQueryClient();
 
-	const handleToggleOpenAddQuizCategoryForm = () => {
-		setIsFormInView(!isFormInview);
+	const handleOpenAddQuizCategoryForm = () => {
+		setIsFormInView(true);
 	};
 
 	const handleCloseAddQuizCategoryForm = () => {
@@ -42,11 +43,9 @@ const QuizCategoriesPage = () => {
 	return (
 		<>
 			<PageTitle title="Quiz categories" />
-			<Button variant="outlined" onClick={handleToggleOpenAddQuizCategoryForm} type="button">
-				{isFormInview ? "Close form" : "Open form"}
+			<Button variant="contained" onClick={handleOpenAddQuizCategoryForm} type="button">
+				Add quiz category
 			</Button>
-			{isFormInview && <AddQuizCategoryForm onClose={handleCloseAddQuizCategoryForm} />}
-
 			{quizCategories && quizCategories.length ? (
 				<CategoriesListing
 					categories={quizCategories}
@@ -55,6 +54,14 @@ const QuizCategoriesPage = () => {
 				/>
 			) : (
 				<Alert severity="warning">Sorry there are no quiz categories</Alert>
+			)}
+			{isFormInview && (
+				<Modal open={isFormInview} onClose={handleCloseAddQuizCategoryForm} title="Add new category">
+					<AddQuizCategoryForm onClose={handleCloseAddQuizCategoryForm} />
+					<Button onClick={handleCloseAddQuizCategoryForm} variant="text" type="button">
+						Cancel
+					</Button>
+				</Modal>
 			)}
 		</>
 	);

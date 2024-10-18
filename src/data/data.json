@@ -22187,13 +22187,16 @@
   ],
   "quizCategories": [
     {
-      "title": "Discovery",
-      "description": "This is discovery category",
-      "likes": null,
-      "hasLikes": false,
-      "id": "73308562-a8a8-4a12-83ab-88bfad87990",
-      "questions": [],
-      "image": "laptop-on-desk.jpg"
+      "image": "women-coding.jpg",
+      "title": "Coding",
+      "description": "This is coding category forn beginners!",
+      "id": "73308562-a8a8-4a12-83ab-88bfad87990"
+    },
+    {
+      "id": "22d094d9-86e3-4f45-a97f-1d4f28c8fe57",
+      "image": "park.jpg",
+      "title": "Nature",
+      "description": "This is nature category"
     }
   ],
   "restaurant": {

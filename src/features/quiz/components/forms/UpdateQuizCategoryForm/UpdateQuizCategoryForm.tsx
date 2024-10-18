@@ -1,17 +1,21 @@
+import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { Container, Box, Stack, FormHelperText, Button } from "@mui/material";
+import { Container, Box, Stack, FormHelperText, Button, Typography } from "@mui/material";
 import { MuiTextField } from "@components/ui/formParts/MuiTextField";
 import { QuizCategoryUpdateFormProps } from "./defs";
 import { CategoriesValidationSchema, categoriesFormSchema } from "../schema/categoriesFormSchema";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect } from "react";
 import { useUpdateQuizCategoryMutation } from "@features/quiz/queries/updateQuizCategoryMutation";
+import ImagePicker from "../../ImagePicker";
+import { useQuizImagesQuery } from "@features/quiz/queries/fetchQuizImagesQuery";
 
 const UpdateQuizCategoryForm = ({ quizCategory }: QuizCategoryUpdateFormProps) => {
+	const [selectedImage, setSelectedImage] = useState<string>(quizCategory?.image || "");
 	const updateQuizCategoryMutation = useUpdateQuizCategoryMutation();
 	const navigate = useNavigate();
 	const { id } = useParams();
+	const { data: quizCategoryImages, isPending, isError, error } = useQuizImagesQuery();
 	const {
 		control,
 		handleSubmit,
@@ -24,13 +28,19 @@ const UpdateQuizCategoryForm = ({ quizCategory }: QuizCategoryUpdateFormProps) =
 		defaultValues: {
 			title: quizCategory?.title,
 			description: quizCategory?.description,
+			//image: quizCategory?.image
 		},
 	});
+
+	const handleSelectQuizCategoryImage = (imagePath: string) => {
+		setSelectedImage(imagePath);
+	};
 
 	const handleSubmitUpdateQuizQuery: SubmitHandler<CategoriesValidationSchema> = (updatedQuizCategory) => {
 		updateQuizCategoryMutation.mutate(
 			{
 				id: id ?? "",
+				image: selectedImage,
 				...updatedQuizCategory,
 			},
 			{
@@ -87,6 +97,17 @@ const UpdateQuizCategoryForm = ({ quizCategory }: QuizCategoryUpdateFormProps) =
 							/>
 							{errors.title && <FormHelperText>{errors.title.message}</FormHelperText>}
 						</Box>
+						{isPending && <Typography variant="body2">Deleting, please wait...</Typography>}
+						{!isPending && quizCategoryImages && (
+							<Box>
+								<ImagePicker
+									selectedImage={selectedImage}
+									images={quizCategoryImages}
+									onSelect={handleSelectQuizCategoryImage}
+								/>
+							</Box>
+						)}
+						{isError && <Typography variant="body1">{error.message}</Typography>}
 						<Box>
 							<Controller
 								name="description"

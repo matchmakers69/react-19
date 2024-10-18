@@ -2,15 +2,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import { categoriesFormSchema, CategoriesValidationSchema } from "../schema/categoriesFormSchema";
-import { Container, Box, Stack, FormHelperText, Button } from "@mui/material";
+import { Container, Box, Stack, FormHelperText, Button, Typography } from "@mui/material";
 import { MuiTextField } from "@components/ui/formParts/MuiTextField";
 import { useCreateQuizCategory } from "@features/quiz/queries/createQuizCategoryMutation";
 import { AddQuizCategoryFormProps } from "./defs";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useQuizImagesQuery } from "@features/quiz/queries/fetchQuizImagesQuery";
+import ImagePicker from "../../ImagePicker";
 
 const AddQuizCategoryForm = ({ onClose }: AddQuizCategoryFormProps) => {
-	const createQuizCategoryMutation = useCreateQuizCategory();
-
+	const { mutate } = useCreateQuizCategory();
+	const [selectedImage, setSelectedImage] = useState<string>();
+	const { data: quizCategoryImages, isPending, isError, error } = useQuizImagesQuery();
 	const {
 		control,
 		handleSubmit,
@@ -25,11 +28,18 @@ const AddQuizCategoryForm = ({ onClose }: AddQuizCategoryFormProps) => {
 		},
 	});
 
+	const handleSelectImage = (imagePath: string) => {
+		setSelectedImage(imagePath);
+	};
+
 	const handleSubmitQuizQuery: SubmitHandler<CategoriesValidationSchema> = (data) => {
-		createQuizCategoryMutation.mutate({
+		const newCreatedQuizCategory = {
 			id: uuidv4(),
+			image: selectedImage,
 			...data,
-		});
+		};
+
+		mutate(newCreatedQuizCategory);
 	};
 
 	useEffect(() => {
@@ -76,6 +86,17 @@ const AddQuizCategoryForm = ({ onClose }: AddQuizCategoryFormProps) => {
 							/>
 							{errors.title && <FormHelperText>{errors.title.message}</FormHelperText>}
 						</Box>
+						{isPending && <Typography variant="body2">Deleting, please wait...</Typography>}
+						{!isPending && quizCategoryImages && (
+							<Box>
+								<ImagePicker
+									selectedImage={selectedImage}
+									images={quizCategoryImages}
+									onSelect={handleSelectImage}
+								/>
+							</Box>
+						)}
+						{isError && <Typography variant="body1">{error.message}</Typography>}
 						<Box>
 							<Controller
 								name="description"
