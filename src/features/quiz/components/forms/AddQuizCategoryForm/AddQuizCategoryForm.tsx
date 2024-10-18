@@ -12,12 +12,13 @@ import ImagePicker from "../../ImagePicker";
 
 const AddQuizCategoryForm = ({ onClose }: AddQuizCategoryFormProps) => {
 	const { mutate } = useCreateQuizCategory();
-	const [selectedImage, setSelectedImage] = useState<string>();
+
 	const { data: quizCategoryImages, isPending, isError, error } = useQuizImagesQuery();
 	const {
 		control,
 		handleSubmit,
 		reset,
+		setValue,
 		formState: { errors, isDirty, isSubmitting, isValid, isSubmitSuccessful },
 	} = useForm<CategoriesValidationSchema>({
 		mode: "all",
@@ -25,17 +26,19 @@ const AddQuizCategoryForm = ({ onClose }: AddQuizCategoryFormProps) => {
 		defaultValues: {
 			title: "",
 			description: "",
+			image: "",
 		},
 	});
 
 	const handleSelectImage = (imagePath: string) => {
-		setSelectedImage(imagePath);
+		setValue("image", imagePath, { shouldValidate: true });
+		// setSelectedImage(imagePath);
 	};
 
 	const handleSubmitQuizQuery: SubmitHandler<CategoriesValidationSchema> = (data) => {
 		const newCreatedQuizCategory = {
 			id: uuidv4(),
-			image: selectedImage,
+			//image: selectedImage,
 			...data,
 		};
 
@@ -89,11 +92,18 @@ const AddQuizCategoryForm = ({ onClose }: AddQuizCategoryFormProps) => {
 						{isPending && <Typography variant="body2">Deleting, please wait...</Typography>}
 						{!isPending && quizCategoryImages && (
 							<Box>
-								<ImagePicker
-									selectedImage={selectedImage}
-									images={quizCategoryImages}
-									onSelect={handleSelectImage}
+								<Controller
+									name="image"
+									control={control}
+									render={({ field }) => (
+										<ImagePicker
+											selectedImage={field.value}
+											images={quizCategoryImages}
+											onSelect={handleSelectImage}
+										/>
+									)}
 								/>
+								{errors.image && <FormHelperText error>{errors.image.message}</FormHelperText>}
 							</Box>
 						)}
 						{isError && <Typography variant="body1">{error.message}</Typography>}
@@ -120,6 +130,7 @@ const AddQuizCategoryForm = ({ onClose }: AddQuizCategoryFormProps) => {
 							/>
 							{errors.description && <FormHelperText>{errors.description.message}</FormHelperText>}
 						</Box>
+						<Box></Box>
 						<Button disabled={isSubmitting || !isValid || !isDirty} variant="contained" type="submit">
 							Add quiz category
 						</Button>

@@ -22197,6 +22197,12 @@
       "image": "park.jpg",
       "title": "Nature",
       "description": "This is nature category"
+    },
+    {
+      "id": "1047f603-2254-47ab-9e9f-13db66f6baa2",
+      "title": "Technology",
+      "description": "This is technology category",
+      "image": "meeting-networking.jpg"
     }
   ],
   "restaurant": {
