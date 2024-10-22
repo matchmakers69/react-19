@@ -22187,12 +22187,6 @@
   ],
   "quizCategories": [
     {
-      "image": "women-coding.jpg",
-      "title": "Coding",
-      "description": "This is coding category forn beginners!",
-      "id": "73308562-a8a8-4a12-83ab-88bfad87990"
-    },
-    {
       "id": "22d094d9-86e3-4f45-a97f-1d4f28c8fe57",
       "image": "park.jpg",
       "title": "Nature",
@@ -22203,6 +22197,15 @@
       "title": "Technology",
       "description": "This is technology category",
       "image": "meeting-networking.jpg"
+    },
+    {
+      "title": "Coding",
+      "description": "This is category coding with updated image",
+      "image": "women-coding.jpg",
+      "likes": {
+        "ff6b7d41-5d89-4861-96e9-9e202ef68165": 5
+      },
+      "id": "ff6b7d41-5d89-4861-96e9-9e202ef68165"
     }
   ],
   "restaurant": {

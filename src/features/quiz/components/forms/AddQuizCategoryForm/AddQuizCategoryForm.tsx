@@ -10,6 +10,8 @@ import { AddQuizCategoryFormProps } from "./defs";
 import { Fragment, useEffect } from "react";
 import { useQuizImagesQuery } from "@features/quiz/queries/fetchQuizImagesQuery";
 import ImagePicker from "../../ImagePicker";
+import AnswersFieldArray from "./AnswersFieldArray";
+import { QuizCategory } from "@services/api/types";
 
 const AddQuizCategoryForm = ({ onClose }: AddQuizCategoryFormProps) => {
 	const { mutate } = useCreateQuizCategory();
@@ -23,9 +25,11 @@ const AddQuizCategoryForm = ({ onClose }: AddQuizCategoryFormProps) => {
 			title: "",
 			description: "",
 			image: "",
-			questions: [
+
+			quizzes: [
 				{
 					questionText: "",
+					answers: [{ answerText: "" }],
 				},
 			],
 		},
@@ -41,7 +45,7 @@ const AddQuizCategoryForm = ({ onClose }: AddQuizCategoryFormProps) => {
 
 	const { fields, append, remove } = useFieldArray({
 		control,
-		name: "questions",
+		name: "quizzes",
 	});
 
 	const handleSelectImage = (imagePath: string) => {
@@ -50,15 +54,26 @@ const AddQuizCategoryForm = ({ onClose }: AddQuizCategoryFormProps) => {
 	};
 
 	const handleSubmitQuizQuery: SubmitHandler<CategoriesValidationSchema> = (data) => {
-		const newCreatedQuizCategory = {
+		const newCreatedQuizCategory: QuizCategory = {
 			id: uuidv4(),
-			//image: selectedImage,
-			...data,
+			title: data.title,
+			description: data.description,
+			image: data.image,
+			quizzes: data.quizzes
+				? data.quizzes.map((quiz) => ({
+						id: uuidv4(), // Add a unique id for each quiz
+						questionText: quiz.questionText,
+						answers: quiz.answers,
+					}))
+				: undefined,
 		};
+		// const newCreatedQuizCategory = {
+		// 	id: uuidv4(),
+		// 	//image: selectedImage,
+		// 	...data,
+		// };
 
-		console.log(newCreatedQuizCategory, "newCreatedQuizCategory");
-
-		// mutate(newCreatedQuizCategory);
+		mutate(newCreatedQuizCategory);
 	};
 
 	useEffect(() => {
@@ -149,6 +164,10 @@ const AddQuizCategoryForm = ({ onClose }: AddQuizCategoryFormProps) => {
 						<Box>
 							{fields.map((field, index) => (
 								<Fragment key={field.id}>
+									<Typography
+										sx={{ marginBottom: "10px" }}
+										variant="h6"
+									>{`Add question number ${index + 1}:`}</Typography>
 									<Box
 										sx={{
 											marginBottom: "20px",
@@ -158,28 +177,64 @@ const AddQuizCategoryForm = ({ onClose }: AddQuizCategoryFormProps) => {
 											placeholder="Enter your question"
 											fullWidth
 											label="Add question"
-											name={`questions.${index}.questionText`}
+											name={`quizzes.${index}.questionText`}
 										/>
+										{/* Answers Section */}
+										<Box sx={{ marginLeft: "25px", marginTop: "10px" }}>
+											<Typography sx={{ marginBottom: "10px" }} variant="h6">
+												Answers
+											</Typography>
+											<Stack gap={1}>
+												{/* Use nested useFieldArray for answers */}
+												<AnswersFieldArray nestIndex={index} />
+											</Stack>
+										</Box>
 									</Box>
-									<Button type="button" onClick={() => remove(index)} color="error">
-										Remove
-									</Button>
+									<Box
+										sx={{
+											width: "100%",
+											maxWidth: "300px",
+											marginBottom: "20px",
+										}}
+									>
+										<Button
+											fullWidth
+											variant="contained"
+											type="button"
+											onClick={() => remove(index)}
+											color="error"
+										>
+											Remove quiz question with answers
+										</Button>
+									</Box>
 								</Fragment>
 							))}
 
-							<Button
-								onClick={() =>
-									append({
-										questionText: "",
-									})
-								}
-								type="button"
+							<Box
+								sx={{
+									padding: "10px 0",
+									paddingTop: 0,
+									width: "100%",
+									maxWidth: "300px",
+								}}
 							>
-								Add new question
-							</Button>
+								<Button
+									fullWidth
+									variant="contained"
+									onClick={() =>
+										append({
+											questionText: "",
+											answers: [],
+										})
+									}
+									type="button"
+								>
+									Add next quiz question with answers
+								</Button>
+							</Box>
 						</Box>
-						<Button disabled={isSubmitting || !isValid || !isDirty} variant="contained" type="submit">
-							Add quiz category
+						<Button disabled={isSubmitting || !isValid || !isDirty} variant="outlined" type="submit">
+							Submit quiz category
 						</Button>
 					</Stack>
 				</Box>

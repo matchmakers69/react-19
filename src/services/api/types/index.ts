@@ -223,14 +223,19 @@ export type Likes = {
 	[key: string]: number;
 };
 
+export type Quiz = {
+	id: string;
+	questionText: string;
+	answers: { answerText: string }[];
+};
+
 export interface QuizCategory {
 	id: string;
 	title: string;
 	description: string;
 	likes?: { [t in string]: number } & Likes;
-	hasLikes?: boolean | null;
-	questions?: { questionText: string }[] | undefined;
 	image?: string | null;
+	quizzes?: Quiz[] | undefined;
 }
 
 export interface QuizCategoryImage {

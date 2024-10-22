@@ -9,6 +9,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useUpdateQuizCategoryMutation } from "@features/quiz/queries/updateQuizCategoryMutation";
 import ImagePicker from "../../ImagePicker";
 import { useQuizImagesQuery } from "@features/quiz/queries/fetchQuizImagesQuery";
+import { QuizCategory } from "@services/api/types";
 
 const UpdateQuizCategoryForm = ({ quizCategory }: QuizCategoryUpdateFormProps) => {
 	const [selectedImage, setSelectedImage] = useState<string>(quizCategory?.image || "");
@@ -20,15 +21,14 @@ const UpdateQuizCategoryForm = ({ quizCategory }: QuizCategoryUpdateFormProps) =
 		control,
 		handleSubmit,
 		reset,
-		getValues,
-		formState: { errors, isSubmitting, isValid },
+		formState: { errors, isSubmitting, isValid, isDirty },
 	} = useForm<CategoriesValidationSchema>({
 		mode: "all",
 		resolver: zodResolver(categoriesFormSchema),
 		defaultValues: {
-			title: quizCategory?.title,
-			description: quizCategory?.description,
-			//image: quizCategory?.image
+			title: quizCategory?.title ?? "",
+			description: quizCategory?.description ?? "",
+			image: quizCategory?.image ?? "",
 		},
 	});
 
@@ -37,28 +37,31 @@ const UpdateQuizCategoryForm = ({ quizCategory }: QuizCategoryUpdateFormProps) =
 	};
 
 	const handleSubmitUpdateQuizQuery: SubmitHandler<CategoriesValidationSchema> = (updatedQuizCategory) => {
-		updateQuizCategoryMutation.mutate(
-			{
-				id: id ?? "",
-				image: selectedImage,
-				...updatedQuizCategory,
-			},
-			{
-				onSuccess: () => navigate("/quiz"),
-			},
-		);
+		const updatedCategory: QuizCategory = {
+			id: id ?? "",
+			title: updatedQuizCategory.title,
+			description: updatedQuizCategory.description,
+			image: selectedImage,
+			// quizzes: quizCategory?.quizzes || [],
+		};
+
+		updateQuizCategoryMutation.mutate(updatedCategory, {
+			onSuccess: () => navigate("/quiz"),
+		});
 	};
 
 	useEffect(() => {
 		if (quizCategory) {
-			reset({
-				title: quizCategory.title,
-				description: quizCategory.description,
-			});
+			reset(
+				{
+					title: quizCategory.title,
+					description: quizCategory.description,
+					image: selectedImage,
+				},
+				{ keepDefaultValues: true },
+			);
 		}
-	}, [quizCategory, reset]);
-
-	const hasValues = Object.values(getValues()).some((value) => value !== undefined && value !== "");
+	}, [quizCategory, reset, selectedImage]);
 
 	return (
 		<>
@@ -131,8 +134,8 @@ const UpdateQuizCategoryForm = ({ quizCategory }: QuizCategoryUpdateFormProps) =
 							/>
 							{errors.description && <FormHelperText>{errors.description.message}</FormHelperText>}
 						</Box>
-						<Button disabled={isSubmitting || !isValid || !hasValues} variant="contained" type="submit">
-							List your job
+						<Button disabled={isSubmitting || !isValid || !isDirty} variant="contained" type="submit">
+							Update quiz category
 						</Button>
 					</Stack>
 				</Box>

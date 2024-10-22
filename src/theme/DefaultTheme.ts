@@ -75,6 +75,15 @@ const DefaultTheme = createTheme({
 							color: "white",
 						},
 					},
+
+					"&.MuiListItemButton-root": {
+						borderRadius: 0,
+						"&:hover": {
+							backgroundColor: "transparent",
+							borderRadius: 0,
+							color: alpha(brand[900], 0.5),
+						},
+					},
 					"&.Mui-disabled": {
 						opacity: 0.3,
 					},

@@ -50,7 +50,7 @@ const QuizCategoryContent = ({ quizCategoryDetails, children }: QuizCategoryCont
 
 	return (
 		<>
-			<Card sx={{ maxWidth: 600, margin: "0 auto" }}>
+			<Card sx={{ maxWidth: 800, margin: "0 auto" }}>
 				<Stack
 					gap={2}
 					marginBottom="20px"

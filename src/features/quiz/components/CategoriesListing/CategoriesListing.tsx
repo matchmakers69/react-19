@@ -53,47 +53,45 @@ const CategoriesListing = ({ categories, onDelete, pending }: CategoriesListingP
 	};
 	return (
 		<Container maxWidth="sm">
-			<nav aria-label="">
-				<List>
-					{categories.map((category) => (
-						<ListItem sx={{ alignItems: "flex-start" }} key={category.id}>
-							{<ListItemIcon>{iconsMapper[category.title as Icons] || DEFAULT_ICON}</ListItemIcon>}
-							<ListItemText
-								primary={
-									<>
-										<Link
-											underline="hover"
-											sx={{ display: "block" }}
-											component={RouterLink}
-											to={`${category.id}`}
-										>
-											<Typography variant="subtitle1">{category.title}</Typography>
-										</Link>
-									</>
-								}
-								secondary={
-									<>
-										<Typography variant="caption">{category.description}</Typography>
-									</>
-								}
-							/>
-							<Stack flexDirection="row" gap={4}>
-								<IconButton onClick={() => navigate(`/quiz/${category.id}/edit`)} aria-label="edit">
-									<EditIcon />
-								</IconButton>
+			<List>
+				{categories.map((category) => (
+					<ListItem sx={{ alignItems: "flex-start" }} key={category.id}>
+						{<ListItemIcon>{iconsMapper[category.title as Icons] || DEFAULT_ICON}</ListItemIcon>}
+						<ListItemText
+							primary={
+								<>
+									<Link
+										underline="hover"
+										sx={{ display: "block" }}
+										component={RouterLink}
+										to={`${category.id}`}
+									>
+										<Typography variant="subtitle1">{category.title}</Typography>
+									</Link>
+								</>
+							}
+							secondary={
+								<>
+									<Typography variant="caption">{category.description}</Typography>
+								</>
+							}
+						/>
+						<Stack flexDirection="row" gap={4}>
+							<IconButton onClick={() => navigate(`/quiz/${category.id}/edit`)} aria-label="edit">
+								<EditIcon />
+							</IconButton>
 
-								{pending && pendingDeletions[category.id] ? (
-									<Typography variant="body1">Is deleting quiz category...</Typography>
-								) : (
-									<IconButton onClick={() => handleCategoryQuizDelete(category.id)} aria-label="delete">
-										<DeleteIcon />
-									</IconButton>
-								)}
-							</Stack>
-						</ListItem>
-					))}
-				</List>
-			</nav>
+							{pending && pendingDeletions[category.id] ? (
+								<Typography variant="body1">Is deleting quiz category...</Typography>
+							) : (
+								<IconButton onClick={() => handleCategoryQuizDelete(category.id)} aria-label="delete">
+									<DeleteIcon />
+								</IconButton>
+							)}
+						</Stack>
+					</ListItem>
+				))}
+			</List>
 		</Container>
 	);
 };
