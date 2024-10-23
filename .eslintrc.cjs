@@ -17,9 +17,11 @@ module.exports = {
 	parser: "@typescript-eslint/parser",
 	parserOptions: { ecmaVersion: "latest", sourceType: "module" },
 	settings: { react: { version: "18.2" } },
-	plugins: ["react-refresh", "import"],
+	plugins: ["react-refresh", "import", "react", "@typescript-eslint", "jest-dom", "react-hooks", "prettier"],
 	rules: {
 		"@typescript-eslint/no-explicit-any": 0,
+		"react-hooks/exhaustive-deps": 2,
+		"react-hooks/rules-of-hooks": 2,
 		"react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
 		"import/newline-after-import": ["error", { count: 1 }],
 		"import/no-unresolved": [2, { caseSensitive: false }],

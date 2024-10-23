@@ -11,18 +11,20 @@ export const categoriesFormSchema = z.object({
 		.min(10, { message: "Description is required" })
 		.max(100, { message: "Your description cannot be longer then 100 characters" }),
 	image: z.string().min(1, { message: "Image is required" }),
-	// quizzes: z
-	// 	.array(
-	// 		z.object({
-	// 			questionText: z.string().min(1, { message: "Question is required" }),
-	// 			answers: z.array(
-	// 				z.object({
-	// 					answerText: z.string(),
-	// 				}),
-	// 			),
-	// 		}),
-	// 	)
-	// 	.optional(),
+	quizzes: z
+		.array(
+			z.object({
+				questionText: z.string().min(1, { message: "Question is required" }),
+				answers: z
+					.array(
+						z.object({
+							answerText: z.string().min(1, { message: "Answer is required" }),
+						}),
+					)
+					.min(1, { message: "At least one answer is required" }),
+			}),
+		)
+		.optional(),
 });
 
 export type CategoriesValidationSchema = z.infer<typeof categoriesFormSchema>;

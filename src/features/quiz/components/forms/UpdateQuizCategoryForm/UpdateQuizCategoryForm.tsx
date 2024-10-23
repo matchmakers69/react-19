@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Container, Box, Stack, FormHelperText, Button, Typography } from "@mui/material";
@@ -12,7 +12,6 @@ import { useQuizImagesQuery } from "@features/quiz/queries/fetchQuizImagesQuery"
 import { QuizCategory } from "@services/api/types";
 
 const UpdateQuizCategoryForm = ({ quizCategory }: QuizCategoryUpdateFormProps) => {
-	const [selectedImage, setSelectedImage] = useState<string>(quizCategory?.image || "");
 	const updateQuizCategoryMutation = useUpdateQuizCategoryMutation();
 	const navigate = useNavigate();
 	const { id } = useParams();
@@ -21,6 +20,7 @@ const UpdateQuizCategoryForm = ({ quizCategory }: QuizCategoryUpdateFormProps) =
 		control,
 		handleSubmit,
 		reset,
+		setValue,
 		formState: { errors, isSubmitting, isValid, isDirty },
 	} = useForm<CategoriesValidationSchema>({
 		mode: "all",
@@ -33,7 +33,7 @@ const UpdateQuizCategoryForm = ({ quizCategory }: QuizCategoryUpdateFormProps) =
 	});
 
 	const handleSelectQuizCategoryImage = (imagePath: string) => {
-		setSelectedImage(imagePath);
+		setValue("image", imagePath, { shouldValidate: true, shouldDirty: true });
 	};
 
 	const handleSubmitUpdateQuizQuery: SubmitHandler<CategoriesValidationSchema> = (updatedQuizCategory) => {
@@ -41,9 +41,12 @@ const UpdateQuizCategoryForm = ({ quizCategory }: QuizCategoryUpdateFormProps) =
 			id: id ?? "",
 			title: updatedQuizCategory.title,
 			description: updatedQuizCategory.description,
-			image: selectedImage,
-			// quizzes: quizCategory?.quizzes || [],
+			image: updatedQuizCategory.image,
+			quizzes: quizCategory?.quizzes || [],
+			likes: quizCategory?.likes || {},
 		};
+
+		console.log(updatedCategory);
 
 		updateQuizCategoryMutation.mutate(updatedCategory, {
 			onSuccess: () => navigate("/quiz"),
@@ -56,12 +59,12 @@ const UpdateQuizCategoryForm = ({ quizCategory }: QuizCategoryUpdateFormProps) =
 				{
 					title: quizCategory.title,
 					description: quizCategory.description,
-					image: selectedImage,
+					image: quizCategory.image ?? undefined,
 				},
 				{ keepDefaultValues: true },
 			);
 		}
-	}, [quizCategory, reset, selectedImage]);
+	}, [quizCategory, reset]);
 
 	return (
 		<>
@@ -102,13 +105,17 @@ const UpdateQuizCategoryForm = ({ quizCategory }: QuizCategoryUpdateFormProps) =
 						</Box>
 						{isPending && <Typography variant="body2">Deleting, please wait...</Typography>}
 						{!isPending && quizCategoryImages && (
-							<Box>
-								<ImagePicker
-									selectedImage={selectedImage}
-									images={quizCategoryImages}
-									onSelect={handleSelectQuizCategoryImage}
-								/>
-							</Box>
+							<Controller
+								name="image"
+								control={control}
+								render={({ field }) => (
+									<ImagePicker
+										selectedImage={field.value}
+										images={quizCategoryImages}
+										onSelect={handleSelectQuizCategoryImage}
+									/>
+								)}
+							/>
 						)}
 						{isError && <Typography variant="body1">{error.message}</Typography>}
 						<Box>

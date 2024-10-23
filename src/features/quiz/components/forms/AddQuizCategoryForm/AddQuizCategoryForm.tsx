@@ -67,11 +67,6 @@ const AddQuizCategoryForm = ({ onClose }: AddQuizCategoryFormProps) => {
 					}))
 				: undefined,
 		};
-		// const newCreatedQuizCategory = {
-		// 	id: uuidv4(),
-		// 	//image: selectedImage,
-		// 	...data,
-		// };
 
 		mutate(newCreatedQuizCategory);
 	};

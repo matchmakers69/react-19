@@ -9,11 +9,10 @@ import { useUpdateQuizCategoryMutation } from "@features/quiz/queries/updateQuiz
 import { Typography } from "@mui/material";
 
 import { useParams } from "react-router-dom";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 
 const QuizCategoryPage = () => {
 	const { id } = useParams<{ id: string }>();
-	const [localLikes, setLocalLikes] = useState(0);
 
 	if (!id) {
 		return <Typography variant="h6">Invalid category ID</Typography>;

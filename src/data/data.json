@@ -22199,13 +22199,141 @@
       "image": "meeting-networking.jpg"
     },
     {
-      "title": "Coding",
-      "description": "This is category coding with updated image",
-      "image": "women-coding.jpg",
+      "title": "Coding ",
+      "description": "This is coding category for quiz",
+      "image": "laptop-on-desk.jpg",
+      "quizzes": [
+        {
+          "id": "b3b095e2-3bf3-4aa8-b881-1e14702e086e",
+          "questionText": "Which of the following definitions best describes React.js?",
+          "answers": [
+            {
+              "answerText": "A library to build user interfaces with help of declarative code."
+            },
+            {
+              "answerText": "A library for managing state in web applications."
+            },
+            {
+              "answerText": "A framework to build user interfaces with help of imperative code."
+            },
+            {
+              "answerText": "A library used for building mobile applications only."
+            }
+          ]
+        },
+        {
+          "id": "a1473cd5-c7ac-4078-9683-c9dd170f6090",
+          "questionText": "What purpose do React hooks serve?",
+          "answers": [
+            {
+              "answerText": "Enabling the use of state and other React features in functional components."
+            },
+            {
+              "answerText": "Creating responsive layouts in React applications."
+            },
+            {
+              "answerText": "Handling errors within the application."
+            },
+            {
+              "answerText": "Part of the Redux library for managing global state."
+            }
+          ]
+        },
+        {
+          "id": "a3b9a291-7bb7-4c6e-b83e-b123efcbc32f",
+          "questionText": "Can you identify what JSX is",
+          "answers": [
+            {
+              "answerText": "A JavaScript extension that adds HTML-like syntax to JavaScript."
+            },
+            {
+              "answerText": "A JavaScript library for building dynamic user interfaces."
+            },
+            {
+              "answerText": "A specific HTML version that was explicitly created for React."
+            },
+            {
+              "answerText": "A tool for making HTTP requests in a React application."
+            }
+          ]
+        },
+        {
+          "id": "c04959cf-50d9-4aef-8e3b-e2fc29ba7f79",
+          "questionText": "What is the most common way to create a component in React?",
+          "answers": [
+            {
+              "answerText": "By defining a JavaScript function that returns a renderable value."
+            },
+            {
+              "answerText": "By defining a custom HTML tag in JavaScript."
+            },
+            {
+              "answerText": "By creating a file with a .jsx extension."
+            },
+            {
+              "answerText": "By using the \"new\" keyword followed by the component name."
+            }
+          ]
+        },
+        {
+          "id": "7a41a921-a7fb-4346-a56c-68c5af221991",
+          "questionText": "What does the term \"React state\" imply?",
+          "answers": [
+            {
+              "answerText": "An object in a component that holds values and may cause the component to render on change."
+            },
+            {
+              "answerText": "The lifecycle phase a React component is in."
+            },
+            {
+              "answerText": "The overall status of a React application, including all props and components."
+            },
+            {
+              "answerText": "A library for managing global state in React applications."
+            }
+          ]
+        },
+        {
+          "id": "8dc75169-7bcf-424c-8cbc-9451c4504aaa",
+          "questionText": "How do you typically render list content in React apps?",
+          "answers": [
+            {
+              "answerText": "By using the map() method to iterate over an array of data and returning JSX."
+            },
+            {
+              "answerText": "By using the for() loop to iterate over an array of data and returning JSX."
+            },
+            {
+              "answerText": "By using the forEach() method to iterate over an array of data and returning JSX."
+            },
+            {
+              "answerText": "By using the loop() method to iterate over an array of data and returning JSX."
+            }
+          ]
+        },
+        {
+          "id": "72766310-dab4-4b07-8bcc-bb56faed1b2e",
+          "questionText": "Which approach can NOT be used to render content conditionally?",
+          "answers": [
+            {
+              "answerText": "Using a the #if template syntax."
+            },
+            {
+              "answerText": "Using a ternary operator."
+            },
+            {
+              "answerText": "Using the && operator."
+            },
+            {
+              "answerText": "Using an if-else statement."
+            }
+          ]
+        }
+      ],
       "likes": {
-        "ff6b7d41-5d89-4861-96e9-9e202ef68165": 5
+        "b8f8c443-03a9-4da9-9d24-414312cdeffc": 2
       },
-      "id": "ff6b7d41-5d89-4861-96e9-9e202ef68165"
+      "id": "b8f8c443-03a9-4da9-9d24-414312cdeffc"
     }
   ],
   "restaurant": {
