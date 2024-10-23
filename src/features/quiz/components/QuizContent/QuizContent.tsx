@@ -1,39 +1,56 @@
-import {
-	Box,
-	Card,
-	CardContent,
-	List,
-	ListItem,
-	ListItemButton,
-	ListItemText,
-	Typography,
-} from "@mui/material";
+import { Box, Card, CardContent, List, ListItemText, Typography } from "@mui/material";
+import * as S from "./QuizContent.styled";
 import { QuizContentProps } from "./defs";
 import { useCallback, useState, useMemo } from "react";
-import QuizComplete from "../QuizComplete";
 import QuestionTimer from "../QuestionTimer";
+import QuizSummary from "../QuizSummary";
 
 const QuizContent = ({ quizzes }: QuizContentProps) => {
 	const [userAnswers, setUserAnswers] = useState<string[]>([]);
+	const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
+	const [isSkipped, setIsSkipped] = useState(false);
+	const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
 	const activeQuestionIndex = userAnswers.length;
 
 	const quizComplete = activeQuestionIndex === quizzes.length;
 
-	const handleSelectedAnswer = useCallback((selectedAnswer: string) => {
-		setUserAnswers((prevUserAnswers) => [...prevUserAnswers, selectedAnswer]);
-	}, []);
+	const { shuffledAnswers, correctAnswer } = useMemo(() => {
+		if (quizComplete) return { shuffledAnswers: [], correctAnswer: "" };
+		const currentQuestion = quizzes[activeQuestionIndex];
+		const correct = currentQuestion.answers[0].answerText; // Store the correct answer text
+		const shuffled = [...currentQuestion.answers].sort(() => Math.random() - 0.5);
+		return { shuffledAnswers: shuffled, correctAnswer: correct };
+	}, [quizzes, activeQuestionIndex, quizComplete]);
+
+	const handleSelectedAnswer = useCallback(
+		(pickedAnswer: string) => {
+			setSelectedAnswer(pickedAnswer);
+			if (pickedAnswer === "") {
+				setIsSkipped(true);
+				setIsCorrect(null);
+			} else {
+				const isAnswerCorrect = pickedAnswer === correctAnswer;
+				setIsCorrect(isAnswerCorrect);
+				setIsSkipped(false);
+			}
+
+			// Delay moving to the next question to show feedback
+			setTimeout(() => {
+				setUserAnswers((prevUserAnswers) => [...prevUserAnswers, pickedAnswer]); // we populate aswers array
+				setIsCorrect(null);
+				setIsSkipped(false);
+				setSelectedAnswer(null);
+			}, 800);
+		},
+		[correctAnswer],
+	);
 
 	const handleSkipAnswer = useCallback(() => {
 		handleSelectedAnswer("");
 	}, [handleSelectedAnswer]);
 
-	const shuffledAnswers = useMemo(() => {
-		if (quizComplete) return [];
-		return [...quizzes[activeQuestionIndex].answers].sort(() => Math.random() - 0.5);
-	}, [quizzes, activeQuestionIndex, quizComplete]);
-
 	if (quizComplete) {
-		return <QuizComplete />;
+		return <QuizSummary questions={quizzes} userAnswers={userAnswers} />;
 	}
 
 	return (
@@ -43,13 +60,25 @@ const QuizContent = ({ quizzes }: QuizContentProps) => {
 					<QuestionTimer key={activeQuestionIndex} timeout={10000} onTimeout={handleSkipAnswer} />
 					<Typography variant="h5">{quizzes[activeQuestionIndex].questionText}</Typography>
 					<List>
-						{shuffledAnswers.map((answer) => (
-							<ListItem key={answer.answerText}>
-								<ListItemButton onClick={() => handleSelectedAnswer(answer.answerText)}>
-									<ListItemText primary={answer.answerText} />
-								</ListItemButton>
-							</ListItem>
-						))}
+						{shuffledAnswers.map((answer) => {
+							let colorStatus = "default";
+							if (selectedAnswer === answer.answerText) {
+								if (isCorrect === true) colorStatus = "correct";
+								else if (isCorrect === false) colorStatus = "incorrect";
+							}
+							if (isSkipped) colorStatus = "skipped";
+							return (
+								<S.StyledListItem disablePadding key={answer.answerText}>
+									<S.StyledListItemButton
+										colorStatus={colorStatus}
+										onClick={() => handleSelectedAnswer(answer.answerText)}
+										disabled={isCorrect !== null || isSkipped}
+									>
+										<ListItemText primary={answer.answerText} />
+									</S.StyledListItemButton>
+								</S.StyledListItem>
+							);
+						})}
 					</List>
 				</CardContent>
 			</Card>

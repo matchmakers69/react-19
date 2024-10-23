@@ -1,4 +1,5 @@
 import {
+	Box,
 	Container,
 	IconButton,
 	Link,
@@ -40,6 +41,18 @@ const iconsMapper: IconsMapper = {
 	[Icons.Coding]: <ComputerIcon />,
 };
 
+type Likes = {
+	[key: string]: number;
+};
+
+const generateLikesNumber = (likes: Likes) => {
+	let count = 0;
+	for (let id in likes) {
+		count += likes[id];
+	}
+	return count;
+};
+
 const CategoriesListing = ({ categories, onDelete, pending }: CategoriesListingProps) => {
 	const [pendingDeletions, setPendingDeletions] = useState<{ [key: string]: boolean }>({});
 	const navigate = useNavigate();
@@ -54,43 +67,51 @@ const CategoriesListing = ({ categories, onDelete, pending }: CategoriesListingP
 	return (
 		<Container maxWidth="sm">
 			<List>
-				{categories.map((category) => (
-					<ListItem sx={{ alignItems: "flex-start" }} key={category.id}>
-						{<ListItemIcon>{iconsMapper[category.title as Icons] || DEFAULT_ICON}</ListItemIcon>}
-						<ListItemText
-							primary={
-								<>
-									<Link
-										underline="hover"
-										sx={{ display: "block" }}
-										component={RouterLink}
-										to={`${category.id}`}
-									>
-										<Typography variant="subtitle1">{category.title}</Typography>
-									</Link>
-								</>
-							}
-							secondary={
-								<>
-									<Typography variant="caption">{category.description}</Typography>
-								</>
-							}
-						/>
-						<Stack flexDirection="row" gap={4}>
-							<IconButton onClick={() => navigate(`/quiz/${category.id}/edit`)} aria-label="edit">
-								<EditIcon />
-							</IconButton>
+				{categories.map((category) => {
+					return (
+						<ListItem sx={{ alignItems: "flex-start" }} key={category.id}>
+							{<ListItemIcon>{iconsMapper[category.title as Icons] || DEFAULT_ICON}</ListItemIcon>}
+							<ListItemText
+								primary={
+									<>
+										<Link
+											underline="hover"
+											sx={{ display: "block" }}
+											component={RouterLink}
+											to={`${category.id}`}
+										>
+											<Typography variant="subtitle1">{category.title}</Typography>
+										</Link>
+									</>
+								}
+								secondary={
+									<>
+										<Typography variant="caption">{category.description}</Typography>
+									</>
+								}
+							/>
 
-							{pending && pendingDeletions[category.id] ? (
-								<Typography variant="body1">Is deleting quiz category...</Typography>
-							) : (
-								<IconButton onClick={() => handleCategoryQuizDelete(category.id)} aria-label="delete">
-									<DeleteIcon />
+							<Stack alignItems="center" flexDirection="row" gap={4}>
+								<Box>
+									<Typography variant="caption">
+										Likes: {generateLikesNumber(category?.likes as Likes)}
+									</Typography>
+								</Box>
+								<IconButton onClick={() => navigate(`/quiz/${category.id}/edit`)} aria-label="edit">
+									<EditIcon />
 								</IconButton>
-							)}
-						</Stack>
-					</ListItem>
-				))}
+
+								{pending && pendingDeletions[category.id] ? (
+									<Typography variant="body1">Is deleting quiz category...</Typography>
+								) : (
+									<IconButton onClick={() => handleCategoryQuizDelete(category.id)} aria-label="delete">
+										<DeleteIcon />
+									</IconButton>
+								)}
+							</Stack>
+						</ListItem>
+					);
+				})}
 			</List>
 		</Container>
 	);

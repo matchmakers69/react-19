@@ -22201,7 +22201,7 @@
     {
       "title": "Coding ",
       "description": "This is coding category for quiz",
-      "image": "laptop-on-desk.jpg",
+      "image": "women-coding.jpg",
       "quizzes": [
         {
           "id": "b3b095e2-3bf3-4aa8-b881-1e14702e086e",
@@ -22331,7 +22331,7 @@
         }
       ],
       "likes": {
-        "b8f8c443-03a9-4da9-9d24-414312cdeffc": 2
+        "b8f8c443-03a9-4da9-9d24-414312cdeffc": 4
       },
       "id": "b8f8c443-03a9-4da9-9d24-414312cdeffc"
     }

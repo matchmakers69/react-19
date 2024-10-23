@@ -1,8 +1,8 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
-const QuizComplete = () => {
+const QuizCongrats = () => {
 	return (
-		<Stack maxWidth="500px" marginX="auto" marginBottom="20px" alignItems="center" justifyContent="center">
+		<>
 			<Box
 				sx={{
 					maxWidth: "100px",
@@ -21,9 +21,9 @@ const QuizComplete = () => {
 					src="/assets/images/quiz-complete.png"
 				/>
 			</Box>
-			<Typography variant="h4">Congratulations!</Typography>
-		</Stack>
+			<Typography variant="h4">Congrant! No more questions!</Typography>
+		</>
 	);
 };
 
-export default QuizComplete;
+export default QuizCongrats;
